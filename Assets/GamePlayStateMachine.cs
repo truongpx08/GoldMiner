@@ -61,7 +61,7 @@ public class InitialState : MonoBehaviour, IEnterState
         {
             var item = Instantiate(Items.Instance.GetItemPrefabWithType(itemType),
                 Items.Instance.GetRandomLineWithItem(itemType));
-            item.transform.localPosition = new Vector3(Random.Range(-3, 3), 0, 0);
+            item.GetComponent<Item>().StateMachine.ChangeState(EItemState.Appearing);
         }
     }
 }

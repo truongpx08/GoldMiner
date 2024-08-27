@@ -1021,9 +1021,9 @@ MonoBehaviour:
   - {fileID: 1834965984}
   - {fileID: 1774203120}
   - {fileID: 274543441}
-  rewardPrefab: {fileID: 3290608493188356162, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
-  timePrefab: {fileID: 3290608493188356162, guid: 410f6908fc5eb8a4dbaaeab1fa78302a, type: 3}
-  trapPrefab: {fileID: 3290608493188356162, guid: 1d9de493602b578468133b0a2cf47b6a, type: 3}
+  rewardPrefab: {fileID: 6256915924224804305, guid: a96159f0f4bc74b4b9944df59a58d661, type: 3}
+  timePrefab: {fileID: 6256915924224804305, guid: e1a0beb725c768046949b0f8a86fe616, type: 3}
+  trapPrefab: {fileID: 6256915924224804305, guid: 00923037f0c51c046a8b48c6848e7afa, type: 3}
 --- !u!4 &2140232505
 Transform:
   m_ObjectHideFlags: 0

@@ -11,5 +11,6 @@ public enum EItemType
 
 public class Item : MonoBehaviour
 {
-
+    [SerializeField] private ItemStateMachine stateMachine;
+    public ItemStateMachine StateMachine => this.stateMachine;
 }
