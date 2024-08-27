@@ -21,11 +21,6 @@ public class MiningMachineStateMachine : MonoBehaviour
     private HookedItemState hookedItemState;
     private ReceiveItemState receiveItemState;
 
-    private void Start()
-    {
-        ChangeState(EMiningMachineState.RotateHook);
-    }
-
     public void ChangeState(EMiningMachineState state)
     {
         this.currentState = state;
