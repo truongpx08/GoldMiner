@@ -16,4 +16,6 @@ public class MiningMachine : TruongSingleton<MiningMachine>
     public Renderer HookRenderer => this.hookRenderer;
     [SerializeField] private LineRenderer stringLineRenderer;
     public LineRenderer StringLineRenderer => this.stringLineRenderer;
+    [SerializeField] private HookCollider hookCollider;
+    public HookCollider HookCollider => this.hookCollider;
 }

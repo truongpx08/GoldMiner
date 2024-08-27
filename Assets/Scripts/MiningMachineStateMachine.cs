@@ -3,24 +3,27 @@ using UnityEngine;
 
 public enum EMiningMachineState
 {
-    Rotating,
-    Drop,
-    Drag,
+    RotateHook, // Xoay qua lại móc câu để chọn hướng thả dây câu  
+    DropLine, // Thả dây câu  
+    PullLine, // Kéo dây câu  
+    HookedItem, // Móc trúng vật phẩm  
+    ReceiveItem // Nhận vật phẩm  
 }
 
 public class MiningMachineStateMachine : MonoBehaviour
 {
     [SerializeField] private EMiningMachineState currentState;
-    private TruongStateMachine stateMachine;
-    private MiningMachineRotatingState rotatingState;
-    public MiningMachineRotatingState RotatingState => this.rotatingState;
-    private MiningMachineDropState dropState;
-    private MiningMachineDragState dragState;
     public EMiningMachineState CurrentState => this.currentState;
+    private TruongStateMachine stateMachine;
+    public RotateHookState RotateHookState { get; private set; }
+    private DropLineState dropLineState;
+    private PullLineState pullLineState;
+    private HookedItemState hookedItemState;
+    private ReceiveItemState receiveItemState;
 
     private void Start()
     {
-        ChangeState(EMiningMachineState.Rotating);
+        ChangeState(EMiningMachineState.RotateHook);
     }
 
     public void ChangeState(EMiningMachineState state)
@@ -29,20 +32,30 @@ public class MiningMachineStateMachine : MonoBehaviour
         if (stateMachine == null) this.stateMachine = new TruongStateMachine();
         switch (state)
         {
-            case EMiningMachineState.Rotating:
-                if (this.rotatingState == null)
-                    this.rotatingState = gameObject.AddComponent<MiningMachineRotatingState>();
-                this.stateMachine.ChangeState(this.rotatingState);
+            case EMiningMachineState.RotateHook:
+                if (this.RotateHookState == null)
+                    this.RotateHookState = gameObject.AddComponent<RotateHookState>();
+                this.stateMachine.ChangeState(this.RotateHookState);
                 break;
-            case EMiningMachineState.Drop:
-                if (this.dropState == null)
-                    this.dropState = gameObject.AddComponent<MiningMachineDropState>();
-                this.stateMachine.ChangeState(this.dropState);
+            case EMiningMachineState.DropLine:
+                if (this.dropLineState == null)
+                    this.dropLineState = gameObject.AddComponent<DropLineState>();
+                this.stateMachine.ChangeState(this.dropLineState);
                 break;
-            case EMiningMachineState.Drag:
-                if (this.dragState == null)
-                    this.dragState = gameObject.AddComponent<MiningMachineDragState>();
-                this.stateMachine.ChangeState(this.dragState);
+            case EMiningMachineState.PullLine:
+                if (this.pullLineState == null)
+                    this.pullLineState = gameObject.AddComponent<PullLineState>();
+                this.stateMachine.ChangeState(this.pullLineState);
+                break;
+            case EMiningMachineState.HookedItem:
+                if (this.hookedItemState == null)
+                    this.hookedItemState = gameObject.AddComponent<HookedItemState>();
+                this.stateMachine.ChangeState(this.hookedItemState);
+                break;
+            case EMiningMachineState.ReceiveItem:
+                if (this.receiveItemState == null)
+                    this.receiveItemState = gameObject.AddComponent<ReceiveItemState>();
+                this.stateMachine.ChangeState(this.receiveItemState);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -50,12 +63,17 @@ public class MiningMachineStateMachine : MonoBehaviour
     }
 }
 
-public class MiningMachineBaseState : MonoBehaviour
+
+public class MiningMachineBase1State : MonoBehaviour
+{
+    protected MiningMachine MiningMachine => MiningMachine.Instance;
+}
+
+public class MiningMachineBase2State : MiningMachineBase1State
 {
     [SerializeField] protected bool isEntering;
     [SerializeField] protected bool hasInit;
     [SerializeField] protected float speed;
-    protected MiningMachine MiningMachine => MiningMachine.Instance;
 
     protected void UpdateString()
     {
@@ -65,7 +83,7 @@ public class MiningMachineBaseState : MonoBehaviour
 }
 
 [Serializable]
-public class MiningMachineRotatingState : MiningMachineBaseState, IEnterState, IExitState
+public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
 {
     [SerializeField] private float angleMax = 70;
     [SerializeField] private float time;
@@ -107,12 +125,12 @@ public class MiningMachineRotatingState : MiningMachineBaseState, IEnterState, I
         UpdateString();
         //HandleUserInput();
         if (!Input.GetMouseButtonDown(0)) return;
-        MiningMachine.StateMachine.ChangeState(EMiningMachineState.Drop);
+        MiningMachine.StateMachine.ChangeState(EMiningMachineState.DropLine);
     }
 }
 
 [Serializable]
-public class MiningMachineDropState : MiningMachineBaseState, IEnterState, IExitState
+public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
 {
     [SerializeField] private Vector2 velocity;
 
@@ -151,12 +169,12 @@ public class MiningMachineDropState : MiningMachineBaseState, IEnterState, IExit
     private void HandleOutOfCameraView()
     {
         if (this.MiningMachine.HookRenderer.isVisible) return;
-        MiningMachine.StateMachine.ChangeState(EMiningMachineState.Drag);
+        MiningMachine.StateMachine.ChangeState(EMiningMachineState.PullLine);
     }
 }
 
 [Serializable]
-public class MiningMachineDragState : MiningMachineBaseState, IEnterState, IExitState
+public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
 {
     [SerializeField] private Vector2 velocity;
 
@@ -195,7 +213,32 @@ public class MiningMachineDragState : MiningMachineBaseState, IEnterState, IExit
     private void HandleDragComplete()
     {
         if (this.MiningMachine.HookTransform.localPosition.y >=
-            MiningMachine.StateMachine.RotatingState.InitialPosition.y)
-            MiningMachine.StateMachine.ChangeState(EMiningMachineState.Rotating);
+            MiningMachine.StateMachine.RotateHookState.InitialPosition.y)
+            MiningMachine.StateMachine.ChangeState(MiningMachine.HookCollider.HookedItem != null
+                ? EMiningMachineState.ReceiveItem
+                : EMiningMachineState.RotateHook);
+    }
+}
+
+public class HookedItemState : MiningMachineBase1State, IEnterState
+{
+    public void Enter()
+    {
+        var hookedItem = MiningMachine.HookCollider.HookedItem;
+        hookedItem.transform.parent = MiningMachine.HookTransform;
+        hookedItem.transform.localPosition = Vector3.zero;
+
+        this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.PullLine);
+    }
+}
+
+public class ReceiveItemState : MiningMachineBase1State, IEnterState
+{
+    public void Enter()
+    {
+        MiningMachine.HookCollider.HookedItem.SetActive(false);
+        MiningMachine.HookCollider.ClearHookedItem();
+
+        this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.RotateHook);
     }
 }
