@@ -19,6 +19,9 @@ public class ItemStateMachine : MonoBehaviour
     [SerializeField] private EItemState currentState;
     private AppearingState appearingState;
     private ItemMovingState movingState;
+    private CaughtByMachineState caughtByMachineState;
+    private ItemDisappearingState disappearingState;
+
 
     public void ChangeState(EItemState state)
     {
@@ -35,8 +38,12 @@ public class ItemStateMachine : MonoBehaviour
                 this.stateMachine.ChangeState(this.movingState);
                 break;
             case EItemState.CaughtByMachine:
+                this.caughtByMachineState ??= gameObject.AddComponent<CaughtByMachineState>();
+                this.stateMachine.ChangeState(this.caughtByMachineState);
                 break;
             case EItemState.Disappearing:
+                this.disappearingState ??= gameObject.AddComponent<ItemDisappearingState>();
+                this.stateMachine.ChangeState(this.disappearingState);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -138,5 +145,21 @@ public class ItemMovingState : ItemBaseState, IEnterState, IExitState
         targetPosition = movingToRight
             ? new Vector3(rightLimit, ItemPosition.y, ItemPosition.z)
             : new Vector3(leftLimit, ItemPosition.y, ItemPosition.z);
+    }
+}
+
+public class CaughtByMachineState : ItemBaseState, IEnterState
+{
+    public void Enter()
+    {
+    }
+}
+
+public class ItemDisappearingState : ItemBaseState, IEnterState
+{
+    public void Enter()
+    {
+        LoadItemReference();
+        this.itemReference.gameObject.SetActive(false);
     }
 }

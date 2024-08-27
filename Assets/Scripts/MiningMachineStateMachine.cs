@@ -219,9 +219,9 @@ public class HookedItemState : MiningMachineBase1State, IEnterState
 {
     public void Enter()
     {
-        var hookedItem = MiningMachine.HookCollider.HookedItem;
-        hookedItem.transform.parent = MiningMachine.HookTransform;
-        hookedItem.transform.localPosition = Vector3.zero;
+        var hookedItemTransform = MiningMachine.HookCollider.HookedItem.transform;
+        hookedItemTransform.parent = MiningMachine.HookTransform;
+        hookedItemTransform.localPosition = Vector3.zero;
 
         this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.PullLine);
     }
@@ -231,7 +231,7 @@ public class ReceiveItemState : MiningMachineBase1State, IEnterState
 {
     public void Enter()
     {
-        MiningMachine.HookCollider.HookedItem.SetActive(false);
+        MiningMachine.HookCollider.HookedItem.StateMachine.ChangeState(EItemState.Disappearing);
         MiningMachine.HookCollider.ClearHookedItem();
 
         this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.RotateHook);
