@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -51,5 +52,31 @@ public class Items : TruongSingleton<Items>
             EItemType.Reward => this.rewardPrefab,
             _ => throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null)
         };
+    }
+
+    [Button]
+    float UpdatePositionLines()
+    {
+        int count = this.lines.Count;
+
+        // Kiểm tra nếu số dòng ít hơn 2  
+        if (count < 2) return 0f;
+
+        // Tính toán khoảng cách và yPerLine  
+        var first = this.lines[0];
+        var last = this.lines[count - 1];
+        var firstLP = first.transform.localPosition;
+
+        float space = Mathf.Abs(last.transform.localPosition.y - firstLP.y);
+        float yPerLine = space / (count - 1);
+
+        // Cập nhật các vị trí cho các dòng  
+        for (int i = 1; i < count - 1; i++)
+        {
+            var line = this.lines[i];
+            line.transform.localPosition = new Vector3(firstLP.x, firstLP.y - yPerLine * i, firstLP.z);
+        }
+
+        return yPerLine;
     }
 }

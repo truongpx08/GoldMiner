@@ -134,9 +134,9 @@ public class ItemMovingState : ItemBaseState, IEnterState, IExitState
         Vector3 lP = itemTransform.localScale;
         float x;
         if (this.movingToRight)
-            x = -0.5f;
+            x = -1f;
         else
-            x = 0.5f;
+            x = 1f;
         itemTransform.localScale = new Vector3(x, lP.y, lP.z);
     }
 
