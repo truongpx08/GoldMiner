@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7642672390842237077, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: rewardSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 638c97db112bbca4d9cde5c839ee858f, type: 3}
+    - target: {fileID: -7642672390842237077, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: characterSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0f95654c5ba1e644d96d8787167a30a6, type: 3}
     - target: {fileID: 1879083337439182608, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 1.49

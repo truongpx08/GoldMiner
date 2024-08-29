@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -145,6 +145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 2791679610402524892}
+  sR: {fileID: 4804703458138787401}
+  rewardSprite: {fileID: 0}
+  characterSprite: {fileID: 0}
 --- !u!1 &5385228513049286078
 GameObject:
   m_ObjectHideFlags: 0

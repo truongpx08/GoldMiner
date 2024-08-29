@@ -68,6 +68,7 @@ public class AppearingState : ItemBaseState, IEnterState
     public void Enter()
     {
         LoadItemReference();
+        this.itemReference.SR.sprite = this.itemReference.CharacterSprite;
         itemReference.transform.localPosition = new Vector3(Random.Range(-3, 3), 0, 0);
         this.itemReference.StateMachine.ChangeState(EItemState.Moving);
     }
@@ -152,6 +153,8 @@ public class CaughtByMachineState : ItemBaseState, IEnterState
 {
     public void Enter()
     {
+        LoadItemReference();
+        this.itemReference.SR.sprite = this.itemReference.RewardSprite;
     }
 }
 
