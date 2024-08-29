@@ -73,7 +73,7 @@ public class MiningMachineBase2State : MiningMachineBase1State
     protected void UpdateString()
     {
         MiningMachine.StringLineRenderer.SetPosition(0, MiningMachine.Pivot.position);
-        MiningMachine.StringLineRenderer.SetPosition(1, MiningMachine.HookTransform.transform.position);
+        MiningMachine.StringLineRenderer.SetPosition(1, MiningMachine.RootHookTransform.transform.position);
     }
 }
 
@@ -90,7 +90,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = 5f;
+            this.speed = 4f;
             this.initialPosition = this.MiningMachine.HookTransform.localPosition;
         }
 
@@ -134,7 +134,7 @@ public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = 6f;
+            this.speed = 4f;
         }
 
         this.isEntering = true;
@@ -178,7 +178,7 @@ public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = 6f;
+            this.speed = 4f;
         }
 
         this.isEntering = true;

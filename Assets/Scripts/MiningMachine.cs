@@ -10,6 +10,8 @@ public class MiningMachine : TruongSingleton<MiningMachine>
     public MiningMachineStateMachine StateMachine => this.stateMachine;
     [SerializeField] private Transform hookTransform;
     public Transform HookTransform => this.hookTransform;
+    [SerializeField] private Transform rootHookTransform;
+    public Transform RootHookTransform => this.rootHookTransform;
     [SerializeField] private Rigidbody2D hookRb;
     public Rigidbody2D HookRb => this.hookRb;
     [SerializeField] private Renderer hookRenderer;
