@@ -242,6 +242,7 @@ public class ReceiveItemState : MiningMachineBase1State, IEnterState
                 UITime.Instance.AddTime();
                 break;
             case EItemType.Reward:
+                ScoreText.Instance.IncreaseScore();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
