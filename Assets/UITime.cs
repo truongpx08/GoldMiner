@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Sirenix.OdinInspector;
 using TMPro;
 
-public class UITime : MonoBehaviour
+public class UITime : TruongSingleton<UITime>
 {
     [SerializeField] private TextMeshProUGUI timerText; // Kéo và thả Text component từ UI vào đây trong Inspector  
     [SerializeField] private Slider timeSlider;
@@ -13,6 +14,7 @@ public class UITime : MonoBehaviour
     private void Start()
     {
         // Đặt giá trị Slider tối đa  
+        maxTime = 30f;
         countdownTime = maxTime;
         timeSlider.maxValue = maxTime;
         timeSlider.value = maxTime;
@@ -44,5 +46,11 @@ public class UITime : MonoBehaviour
         // Đảm bảo thời gian là 0 khi kết thúc  
         timerText.text = "00:00";
         // timeSlider.value = 0; // Đặt giá trị Slider về 0  
+    }
+
+    [Button]
+    public void AddTime()
+    {
+        this.countdownTime = Mathf.Min(this.countdownTime + 2, this.maxTime);
     }
 }

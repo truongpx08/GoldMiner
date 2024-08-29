@@ -231,7 +231,22 @@ public class ReceiveItemState : MiningMachineBase1State, IEnterState
 {
     public void Enter()
     {
-        MiningMachine.HookCollider.HookedItem.StateMachine.ChangeState(EItemState.Disappearing);
+        var hookedItem = MiningMachine.HookCollider.HookedItem;
+        hookedItem.StateMachine.ChangeState(EItemState.Disappearing);
+
+        switch (Enum.Parse<EItemType>(hookedItem.tag))
+        {
+            case EItemType.Trap:
+                break;
+            case EItemType.Time:
+                UITime.Instance.AddTime();
+                break;
+            case EItemType.Reward:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
         MiningMachine.HookCollider.ClearHookedItem();
 
         this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.RotateHook);
