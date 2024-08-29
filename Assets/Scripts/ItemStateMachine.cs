@@ -116,7 +116,7 @@ public class ItemMovingState : ItemBaseState, IEnterState, IExitState
     {
         // Di chuyển vật phẩm tới vị trí mục tiêu  
         this.itemReference.transform.position =
-            Vector3.MoveTowards(ItemPosition, targetPosition, speed * Time.deltaTime);
+            Vector3.MoveTowards(ItemPosition, targetPosition, speed * UnityEngine.Time.deltaTime);
 
         // Kiểm tra nếu vật phẩm đã đến vị trí mục tiêu  
         if (Vector3.Distance(ItemPosition, targetPosition) < 0.1f)

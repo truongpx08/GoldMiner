@@ -109,7 +109,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
     {
         //RotatePivot();
         if (!isEntering) return;
-        this.time += Time.fixedDeltaTime;
+        this.time += UnityEngine.Time.fixedDeltaTime;
         float rotationZ = Mathf.Sin(this.time * speed) * angleMax;
         MiningMachine.Pivot.rotation = Quaternion.Euler(0, 0, rotationZ);
     }
