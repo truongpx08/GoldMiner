@@ -1,16 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceProviders;
 
 public enum EGameState
 {
     SelectLevel, // Trạng thái chọn màn chơi  
     Playing, // Trạng thái đang chơi  
-    ShowResults // Trạng thái hiển thị kết quả  
 }
 
 public class GameStateMachine : TruongSingleton<GameStateMachine>
@@ -39,8 +33,6 @@ public class GameStateMachine : TruongSingleton<GameStateMachine>
             case EGameState.Playing:
                 this.playingState ??= new PlayingState();
                 this.stateMachine.ChangeState(this.playingState);
-                break;
-            case EGameState.ShowResults:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);

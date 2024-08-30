@@ -48,8 +48,12 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
     }
 }
 
+public class GamePlayBaseState : MonoBehaviour
+{
+    protected GameOverPanel GameOverPanel => GamePlayUI.Instance.GameOverPanel;
+}
 
-public class GamePlayPlayingState : MonoBehaviour, IEnterState
+public class GamePlayPlayingState : GamePlayBaseState, IEnterState
 {
     public void Enter()
     {
@@ -74,11 +78,6 @@ public class GamePlayPlayingState : MonoBehaviour, IEnterState
     }
 }
 
-public class GamePlayBaseState : MonoBehaviour
-{
-    protected GameOverPanel GameOverPanel => GamePlayUI.Instance.GameOverPanel;
-}
-
 public class ShowRewardState : GamePlayBaseState, IEnterState
 {
     public void Enter()
@@ -86,6 +85,7 @@ public class ShowRewardState : GamePlayBaseState, IEnterState
         GameOverPanel.gameObject.SetActive(true);
         GameOverPanel.ShowReward();
         this.GameOverPanel.SetRewardText();
+        HighScore.CheckNewHighScore(ScoreText.Instance.Score);
     }
 }
 
