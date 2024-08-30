@@ -10,6 +10,7 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private Transform reward;
     [SerializeField] private Transform point;
     [SerializeField] private TextMeshProUGUI rewardText;
+    [SerializeField] private GameObject homeButton;
 
     public void ShowReward()
     {
@@ -17,6 +18,7 @@ public class GameOverPanel : MonoBehaviour
         this.sellButton.gameObject.SetActive(true);
         this.reward.gameObject.SetActive(true);
         this.point.gameObject.SetActive(false);
+        this.homeButton.SetActive(false);
     }
 
     public void ShowPoint()
@@ -25,6 +27,7 @@ public class GameOverPanel : MonoBehaviour
         this.sellButton.gameObject.SetActive(false);
         this.reward.gameObject.SetActive(false);
         this.point.gameObject.SetActive(true);
+        this.homeButton.SetActive(true);
     }
 
     public void SetRewardText()

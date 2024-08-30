@@ -9,8 +9,7 @@ public class HookCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Xuyên qua đối tượng: " + other.tag);
-
+        // Debug.Log("Xuyên qua đối tượng: " + other.tag);
         var currentItem = other.gameObject.GetComponent<Item>();
         if (currentItem == null) return; // Ensure currentItem is not null  
 
