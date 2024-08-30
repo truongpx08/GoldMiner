@@ -7,11 +7,12 @@ public class HighScore : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
     private static int _highScore;
+    private const string HighScoreKey = "HighScore";
 
     private void Start()
     {
         // Lấy điểm cao nhất từ PlayerPrefs  
-        _highScore = PlayerPrefs.GetInt("HighScore", 0);
+        _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
         //UpdateHighScoreText();
         highScoreText.text = _highScore.ToString();
     }
@@ -21,7 +22,7 @@ public class HighScore : MonoBehaviour
         if (currentScore > _highScore)
         {
             _highScore = currentScore;
-            PlayerPrefs.SetInt("HighScore", _highScore);
+            PlayerPrefs.SetInt(HighScoreKey, _highScore);
             PlayerPrefs.Save(); // Lưu thay đổi  
         }
     }
