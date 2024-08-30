@@ -2791,6 +2791,7 @@ MonoBehaviour:
   sellButton: {fileID: 145426572}
   reward: {fileID: 666859650}
   point: {fileID: 1658311888}
+  rewardText: {fileID: 1072859746}
 --- !u!1 &1306547180
 GameObject:
   m_ObjectHideFlags: 0

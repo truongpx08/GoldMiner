@@ -7,6 +7,8 @@ public class ScoreText : TruongSingleton<ScoreText>
 {
     [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private int score;
+    public int Score => this.score;
+
 
     protected override void Start()
     {

@@ -120,6 +120,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
         UpdateString();
         //HandleUserInput();
         if (!Input.GetMouseButtonDown(0)) return;
+        if (GamePlayStateMachine.Instance.CurrentState != EGamePlayState.Playing) return;
         MiningMachine.StateMachine.ChangeState(EMiningMachineState.DropLine);
     }
 }

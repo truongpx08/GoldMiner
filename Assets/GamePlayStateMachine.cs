@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EGamePlayState
 {
-    Initial,
+    Playing,
     ShowReward,
     TransferRewardToPoint,
 }
@@ -14,13 +14,14 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
 {
     private TruongStateMachine stateMachine;
     [SerializeField] private EGamePlayState currentState;
-    private InitialState initialState;
+    public EGamePlayState CurrentState => this.currentState;
+    private GamePlayPlayingState playingState;
     private ShowRewardState showRewardState;
     private TransferRewardToPointState transferRewardToPointState;
 
     protected override void Start()
     {
-        ChangeState(EGamePlayState.Initial);
+        ChangeState(EGamePlayState.Playing);
     }
 
     public void ChangeState(EGamePlayState state)
@@ -29,9 +30,9 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
         if (stateMachine == null) this.stateMachine = new TruongStateMachine();
         switch (state)
         {
-            case EGamePlayState.Initial:
-                this.initialState ??= gameObject.AddComponent<InitialState>();
-                this.stateMachine.ChangeState(this.initialState);
+            case EGamePlayState.Playing:
+                this.playingState ??= gameObject.AddComponent<GamePlayPlayingState>();
+                this.stateMachine.ChangeState(this.playingState);
                 break;
             case EGamePlayState.ShowReward:
                 this.showRewardState ??= gameObject.AddComponent<ShowRewardState>();
@@ -48,7 +49,7 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
 }
 
 
-public class InitialState : MonoBehaviour, IEnterState
+public class GamePlayPlayingState : MonoBehaviour, IEnterState
 {
     public void Enter()
     {
@@ -73,19 +74,25 @@ public class InitialState : MonoBehaviour, IEnterState
     }
 }
 
-public class ShowRewardState : MonoBehaviour, IEnterState
+public class GamePlayBaseState : MonoBehaviour
+{
+    protected GameOverPanel GameOverPanel => GamePlayUI.Instance.GameOverPanel;
+}
+
+public class ShowRewardState : GamePlayBaseState, IEnterState
 {
     public void Enter()
     {
-        GamePlayUI.Instance.GameOverPanel.gameObject.SetActive(true);
-        GamePlayUI.Instance.GameOverPanel.ShowReward();
+        GameOverPanel.gameObject.SetActive(true);
+        GameOverPanel.ShowReward();
+        this.GameOverPanel.SetRewardText();
     }
 }
 
-public class TransferRewardToPointState : MonoBehaviour, IEnterState
+public class TransferRewardToPointState : GamePlayBaseState, IEnterState
 {
     public void Enter()
     {
-        GamePlayUI.Instance.GameOverPanel.ShowPoint();
+        GameOverPanel.ShowPoint();
     }
 }

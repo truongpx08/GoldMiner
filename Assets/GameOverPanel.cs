@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameOverPanel : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private SellButton sellButton;
     [SerializeField] private Transform reward;
     [SerializeField] private Transform point;
+    [SerializeField] private TextMeshProUGUI rewardText;
 
     public void ShowReward()
     {
@@ -23,5 +25,10 @@ public class GameOverPanel : MonoBehaviour
         this.sellButton.gameObject.SetActive(false);
         this.reward.gameObject.SetActive(false);
         this.point.gameObject.SetActive(true);
+    }
+
+    public void SetRewardText()
+    {
+        this.rewardText.text = ScoreText.Instance.Score.ToString();
     }
 }
