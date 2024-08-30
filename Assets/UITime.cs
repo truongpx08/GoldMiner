@@ -11,7 +11,7 @@ public class UITime : TruongSingleton<UITime>
     [SerializeField] private float maxTime = 30f;
     private float countdownTime; // Thời gian đếm ngược  
 
-    private void Start()
+    protected override void Start()
     {
         // Đặt giá trị Slider tối đa  
         maxTime = 30f;
@@ -45,7 +45,7 @@ public class UITime : TruongSingleton<UITime>
 
         // Đảm bảo thời gian là 0 khi kết thúc  
         timerText.text = "00:00";
-        // timeSlider.value = 0; // Đặt giá trị Slider về 0  
+        GamePlayStateMachine.Instance.ChangeState(EGamePlayState.ShowReward);
     }
 
     [Button]

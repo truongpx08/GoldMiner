@@ -6,17 +6,19 @@ using UnityEngine;
 public enum EGamePlayState
 {
     Initial,
-    Start,
-    GameOver,
+    ShowReward,
+    TransferRewardToPoint,
 }
 
-public class GamePlayStateMachine : MonoBehaviour
+public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
 {
     private TruongStateMachine stateMachine;
     [SerializeField] private EGamePlayState currentState;
     private InitialState initialState;
+    private ShowRewardState showRewardState;
+    private TransferRewardToPointState transferRewardToPointState;
 
-    private void Start()
+    protected override void Start()
     {
         ChangeState(EGamePlayState.Initial);
     }
@@ -31,9 +33,13 @@ public class GamePlayStateMachine : MonoBehaviour
                 this.initialState ??= gameObject.AddComponent<InitialState>();
                 this.stateMachine.ChangeState(this.initialState);
                 break;
-            case EGamePlayState.Start:
+            case EGamePlayState.ShowReward:
+                this.showRewardState ??= gameObject.AddComponent<ShowRewardState>();
+                this.stateMachine.ChangeState(this.showRewardState);
                 break;
-            case EGamePlayState.GameOver:
+            case EGamePlayState.TransferRewardToPoint:
+                this.transferRewardToPointState ??= gameObject.AddComponent<TransferRewardToPointState>();
+                this.stateMachine.ChangeState(this.transferRewardToPointState);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -41,10 +47,12 @@ public class GamePlayStateMachine : MonoBehaviour
     }
 }
 
+
 public class InitialState : MonoBehaviour, IEnterState
 {
     public void Enter()
     {
+        GamePlayUI.Instance.GameOverPanel.gameObject.SetActive(false);
         MiningMachine.Instance.StateMachine.ChangeState(EMiningMachineState.RotateHook);
 
         // SpawnItem
@@ -62,5 +70,22 @@ public class InitialState : MonoBehaviour, IEnterState
                 Items.Instance.GetRandomLineWithItem(itemType));
             item.GetComponent<Item>().StateMachine.ChangeState(EItemState.Appearing);
         }
+    }
+}
+
+public class ShowRewardState : MonoBehaviour, IEnterState
+{
+    public void Enter()
+    {
+        GamePlayUI.Instance.GameOverPanel.gameObject.SetActive(true);
+        GamePlayUI.Instance.GameOverPanel.ShowReward();
+    }
+}
+
+public class TransferRewardToPointState : MonoBehaviour, IEnterState
+{
+    public void Enter()
+    {
+        GamePlayUI.Instance.GameOverPanel.ShowPoint();
     }
 }
