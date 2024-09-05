@@ -90,7 +90,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = 4f;
+            this.speed = 2.5f;
             this.initialPosition = this.MiningMachine.HookTransform.localPosition;
         }
 
