@@ -65,5 +65,6 @@ public class InitializeUIState : MonoBehaviour, IEnterState
         var data = SelectLevelStateMachine.Instance.GetDataState.NewData.data;
         HighScore.Instance.SetHighScore(data.highScore);
         Balance.Instance.SetBalanceText((int)data.user.taman);
+        Option.Instance.InitAllButton(data.crystalData);
     }
 }

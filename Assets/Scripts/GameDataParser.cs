@@ -17,7 +17,7 @@ public class UserDataDetails
 {
     public User user;
     public float highScore;
-    public Dictionary<float, CrystalData> crystalData; 
+    public List<CrystalData> crystalData;
 }
 
 [Serializable]
@@ -31,11 +31,13 @@ public class User
 [Serializable]
 public class CrystalData
 {
+    public int level;
     public float BALANCE_UNLOCK;
-    public float FEE_INPUT;
+    public long FEE_INPUT;
     public float CHEST_VALUE;
     public float NORMAL_CHEST;
     public float RARE_CHEST;
     public float EPIC_CHEST;
     public float LEGENDARY_CHEST;
+    public bool AVAILABLE;
 }

@@ -17,7 +17,7 @@ public class ApiRequest : TruongSingleton<ApiRequest>
         IEnumerator IE()
         {
             UnityWebRequest request = UnityWebRequest.Get(this.url);
-            request.SetRequestHeader("wallet", wallet);
+            request.SetRequestHeader("wallet", wallet.ToLower());
 
             yield return request.SendWebRequest();
 

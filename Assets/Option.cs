@@ -7,6 +7,21 @@ public class Option : TruongSingleton<Option>
     [SerializeField] private List<OptionButton> buttons;
     public List<OptionButton> Buttons => this.buttons;
 
+    // Up
+    [SerializeField] private Sprite onUpButtonSprite;
+    public Sprite OnUpButtonSprite => this.onUpButtonSprite;
+    [SerializeField] private Sprite offUpButtonSprite;
+    public Sprite OffUpButtonSprite => this.offUpButtonSprite;
+    // Down
+    [SerializeField] private Sprite onDownButtonSprite;
+    public Sprite OnDownButtonSprite => this.onDownButtonSprite;
+    [SerializeField] private Sprite offDownButtonSprite;
+    public Sprite OffDownButtonSprite => this.offDownButtonSprite;
+    [SerializeField] private Sprite onTamanSprite;
+    public Sprite OnTamanSprite => this.onTamanSprite;
+    [SerializeField] private Sprite offTamanSprite;
+    public Sprite OffTamanSprite => this.offTamanSprite;
+
     protected override void Start()
     {
         base.Start();
@@ -17,5 +32,15 @@ public class Option : TruongSingleton<Option>
             else
                 item.UnSelect();
         });
+    }
+
+    public void InitAllButton(List<CrystalData> data)
+    {
+        int index = 0;
+        foreach (var button in buttons)
+        {
+            button.Init(data[index]);
+            index++;
+        }
     }
 }
