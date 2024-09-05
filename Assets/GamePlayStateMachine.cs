@@ -85,7 +85,6 @@ public class ShowRewardState : GamePlayBaseState, IEnterState
         GameOverPanel.gameObject.SetActive(true);
         GameOverPanel.ShowReward();
         this.GameOverPanel.SetRewardText();
-        HighScore.CheckNewHighScore(ScoreText.Instance.Score);
     }
 }
 

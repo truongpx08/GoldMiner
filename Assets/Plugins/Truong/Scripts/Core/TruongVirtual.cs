@@ -270,4 +270,29 @@ public abstract class TruongVirtual
         int minutesDifference = (int)timeDifference.TotalMinutes;
         return minutesDifference;
     }
+
+    public static string FormatNumber(long number)
+    {
+        if (number >= 1_000_000_000_000_000)
+        {
+            return $"{number / 1_000_000_000_000_000.0:F2}Q"; // Quadrillion  
+        }
+
+        if (number >= 1_000_000_000_000)
+        {
+            return $"{number / 1_000_000_000_000.0:F2}T"; // Trillion  
+        }
+
+        if (number >= 1_000_000_000)
+        {
+            return $"{number / 1_000_000_000.0:F2}B"; // Billion  
+        }
+
+        if (number >= 1_000_000)
+        {
+            return $"{number / 1_000_000.0:F2}M"; // Million  
+        }
+
+        return number.ToString(); // Trả về dạng số nguyên nếu nhỏ hơn 1 triệu  
+    }
 }

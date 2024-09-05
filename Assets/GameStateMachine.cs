@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum EGameState
 {
+    Bootstrap,
     SelectLevel, // Trạng thái chọn màn chơi  
     Playing, // Trạng thái đang chơi  
 }
@@ -13,10 +14,11 @@ public class GameStateMachine : TruongSingleton<GameStateMachine>
     [SerializeField] private EGameState currentState;
     private SelectLevelState selectLevelState;
     private PlayingState playingState;
+    private BootstrapState bootstrapState;
 
     protected override void Start()
     {
-        ChangeState(EGameState.SelectLevel);
+        ChangeState(EGameState.Bootstrap);
     }
 
     public void ChangeState(EGameState state)
@@ -26,6 +28,10 @@ public class GameStateMachine : TruongSingleton<GameStateMachine>
         if (stateMachine == null) this.stateMachine = new TruongStateMachine();
         switch (state)
         {
+            case EGameState.Bootstrap:
+                this.bootstrapState ??= new BootstrapState();
+                this.stateMachine.ChangeState(this.bootstrapState);
+                break;
             case EGameState.SelectLevel:
                 this.selectLevelState ??= new SelectLevelState();
                 this.stateMachine.ChangeState(this.selectLevelState);
@@ -54,5 +60,13 @@ public class PlayingState : IEnterState
     public void Enter()
     {
         SceneLoader.Instance.LoadScene("Assets/Scenes/GamePlay.unity");
+    }
+}
+
+public class BootstrapState : IEnterState
+{
+    public void Enter()
+    {
+        SceneLoader.Instance.LoadScene("Assets/Scenes/Bootstrap.unity");
     }
 }
