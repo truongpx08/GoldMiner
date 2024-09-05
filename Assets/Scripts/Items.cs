@@ -24,11 +24,26 @@ public class Items : TruongSingleton<Items>
                 return lineList[Random.Range(0, lineList.Count)];
             case EItemType.Time:
             case EItemType.Reward:
-                lineList = GetLines(new List<int> { 3, 4, 6, 7 });
+                lineList = GetAvailableLines(new List<int> { 3, 4, 6, 7, 8 });
+                Debug.Log(lineList.Count);
                 return lineList[Random.Range(0, lineList.Count)];
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
         }
+    }
+
+    private List<Transform> GetAvailableLines(List<int> linesPosition)
+    {
+        var lineList = new List<Transform>();
+        foreach (var linePosition in linesPosition)
+        {
+            int lineIndex = linePosition - 1;
+            var line = this.lines[lineIndex];
+            if (line.childCount < 2)
+                lineList.Add(line);
+        }
+
+        return lineList;
     }
 
     private List<Transform> GetLines(List<int> linesPosition)
