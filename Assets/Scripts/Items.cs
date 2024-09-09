@@ -25,7 +25,7 @@ public class Items : TruongSingleton<Items>
             case EItemType.Time:
             case EItemType.Chest:
                 lineList = GetAvailableLines(new List<int> { 3, 4, 6, 7, 8 });
-                Debug.Log(lineList.Count);
+                // Debug.Log(lineList.Count);
                 return lineList[Random.Range(0, lineList.Count)];
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);

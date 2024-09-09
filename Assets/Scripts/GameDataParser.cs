@@ -5,10 +5,15 @@ public class GameDataParser
 {
 }
 
-[Serializable]
-public class UserData
+public class BaseApiParser
 {
     public bool success;
+}
+
+// UserData
+[Serializable]
+public class UserData : BaseApiParser
+{
     public UserDataDetails data;
 }
 
@@ -40,4 +45,31 @@ public class CrystalData
     public float EPIC_CHEST;
     public float LEGENDARY_CHEST;
     public bool AVAILABLE;
+}
+
+// StartData
+[Serializable]
+public class StartData : BaseApiParser
+{
+    public StartDataDetails data;
+}
+
+[Serializable]
+public class StartDataDetails
+{
+    public string gameId;
+}
+
+// MoveData
+
+[Serializable]
+public class MoveData : BaseApiParser
+{
+    public MoveDataDetails data;
+}
+
+[Serializable]
+public class MoveDataDetails
+{
+    public float numChest;
 }

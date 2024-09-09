@@ -13,18 +13,17 @@ public class ScoreText : TruongSingleton<ScoreText>
     protected override void Start()
     {
         base.Start();
-        this.score = 0;
+        SetScore(0);
+    }
+
+    public void SetScore(int value)
+    {
+        this.score = value;
         UpdateTextMesh();
     }
 
     private void UpdateTextMesh()
     {
         this.tmp.text = $"Score\n{score}";
-    }
-
-    public void IncreaseScore()
-    {
-        score++;
-        UpdateTextMesh();
     }
 }

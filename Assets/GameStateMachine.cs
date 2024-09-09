@@ -13,7 +13,7 @@ public class GameStateMachine : TruongSingleton<GameStateMachine>
     private TruongStateMachine stateMachine;
     [SerializeField] private EGameState currentState;
     private SelectLevelState selectLevelState;
-    private PlayingState playingState;
+    public PlayingState PlayingState { get; private set; }
     private BootstrapState bootstrapState;
 
     protected override void Start()
@@ -37,8 +37,8 @@ public class GameStateMachine : TruongSingleton<GameStateMachine>
                 this.stateMachine.ChangeState(this.selectLevelState);
                 break;
             case EGameState.Playing:
-                this.playingState ??= new PlayingState();
-                this.stateMachine.ChangeState(this.playingState);
+                this.PlayingState ??= gameObject.AddComponent<PlayingState>();
+                this.stateMachine.ChangeState(this.PlayingState);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -55,11 +55,20 @@ public class SelectLevelState : IEnterState
     }
 }
 
-public class PlayingState : IEnterState
+public class PlayingState : MonoBehaviour, IEnterState
 {
+    [SerializeField] private StartDataDetails data;
+    public StartDataDetails Data => this.data;
+
     public void Enter()
     {
         SceneLoader.Instance.LoadScene("Assets/Scenes/GamePlay.unity");
+    }
+
+
+    public void SetData(StartDataDetails jsonObjectData)
+    {
+        this.data = jsonObjectData;
     }
 }
 

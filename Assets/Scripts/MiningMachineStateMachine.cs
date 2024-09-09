@@ -244,13 +244,18 @@ public class ReceiveItemState : MiningMachineBase1State, IEnterState
                 UITime.Instance.AddTime();
                 break;
             case EItemType.Chest:
-                ScoreText.Instance.IncreaseScore();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        MiningMachine.HookCollider.ClearHookedItem();
+        //Update Score
+        ApiService.Instance.Request(EApiType.PostMove, json =>
+        {
+            var jsonObject = JsonUtility.FromJson<MoveData>(json);
+            ScoreText.Instance.SetScore((int)jsonObject.data.numChest);
+            MiningMachine.HookCollider.ClearHookedItem();
+        }, _ => { MiningMachine.HookCollider.ClearHookedItem(); });
 
         this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.RotateHook);
     }

@@ -10,7 +10,12 @@ public class PlayButton : TruongUIButton
         AddActionToButton(() =>
         {
             ApiService.Instance.Request(EApiType.PostStart,
-                _ => { GameStateMachine.Instance.ChangeState(EGameState.Playing); });
+                json =>
+                {
+                    var jsonObject = JsonUtility.FromJson<StartData>(json);
+                    GameStateMachine.Instance.ChangeState(EGameState.Playing);
+                    GameStateMachine.Instance.PlayingState.SetData(jsonObject.data);
+                });
         });
     }
 }
