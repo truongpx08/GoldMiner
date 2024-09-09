@@ -20,6 +20,8 @@ public class Option : TruongSingleton<Option>
     [SerializeField] private Sprite onTamanSprite;
     public Sprite OnTamanSprite => this.onTamanSprite;
     [SerializeField] private Sprite offTamanSprite;
+    [SerializeField] private OptionButton currentOption;
+    public OptionButton CurrentOption => this.currentOption;
     public Sprite OffTamanSprite => this.offTamanSprite;
 
     protected override void Start()
@@ -42,5 +44,10 @@ public class Option : TruongSingleton<Option>
             button.Init(data[index]);
             index++;
         }
+    }
+
+    public void SetCurrentOption(OptionButton optionButton)
+    {
+        this.currentOption = optionButton;
     }
 }

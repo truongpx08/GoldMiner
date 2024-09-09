@@ -7,6 +7,10 @@ public class PlayButton : TruongUIButton
     protected override void Start()
     {
         base.Start();
-        AddActionToButton(() => GameStateMachine.Instance.ChangeState(EGameState.Playing));
+        AddActionToButton(() =>
+        {
+            ApiService.Instance.Request(EApiType.PostStart,
+                _ => { GameStateMachine.Instance.ChangeState(EGameState.Playing); });
+        });
     }
 }

@@ -44,25 +44,25 @@ public class SelectLevelStateMachine : TruongSingleton<SelectLevelStateMachine>
 
 public class GetDataState : MonoBehaviour, IEnterState
 {
-    [SerializeField] private UserData newData;
-    public UserData NewData => this.newData;
+    [SerializeField] private UserData data;
+    public UserData Data => this.data;
 
     public void Enter()
     {
-        ApiRequest.Instance.GetUserData(json =>
+        ApiService.Instance.Request(EApiType.GetUserData, json =>
         {
-            this.newData = JsonUtility.FromJson<UserData>(json);
-
+            this.data = JsonUtility.FromJson<UserData>(json);
             SelectLevelStateMachine.Instance.ChangeState(ESelectLevelState.InitializeUI);
         });
     }
 }
 
+
 public class InitializeUIState : MonoBehaviour, IEnterState
 {
     public void Enter()
     {
-        var data = SelectLevelStateMachine.Instance.GetDataState.NewData.data;
+        var data = SelectLevelStateMachine.Instance.GetDataState.Data.data;
         HighScore.Instance.SetHighScore(data.highScore);
         Balance.Instance.SetBalanceText((int)data.user.taman);
         Option.Instance.InitAllButton(data.crystalData);

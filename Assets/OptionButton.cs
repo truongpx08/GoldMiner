@@ -17,6 +17,8 @@ public class OptionButton : TruongUIButton
     [SerializeField] private Image bg;
     [SerializeField] private TextMeshProUGUI feeText;
     [SerializeField] private Image icon;
+    [SerializeField] private int level;
+    public int Level => this.level;
 
     protected override void Start()
     {
@@ -42,10 +44,12 @@ public class OptionButton : TruongUIButton
     public void Select()
     {
         this.selectedImage.SetActive(true);
+        Option.Instance.SetCurrentOption(this);
     }
 
     public void Init(CrystalData crystalData)
     {
+        this.level = crystalData.level;
         if (crystalData.AVAILABLE)
         {
             this.bg.sprite =
