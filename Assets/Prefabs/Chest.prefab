@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3290608493188356162, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_Name
-      value: Reward
+      value: Chest
       objectReference: {fileID: 0}
     - target: {fileID: 3290608493188356162, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_TagString
-      value: Reward
+      value: Chest
       objectReference: {fileID: 0}
     - target: {fileID: 4804703458138787401, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_Sprite

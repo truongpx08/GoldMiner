@@ -16,7 +16,7 @@ public class MiningMachineStateMachine : MonoBehaviour
     public EMiningMachineState CurrentState => this.currentState;
     private TruongStateMachine stateMachine;
     public RotateHookState RotateHookState { get; private set; }
-    private DropLineState dropLineState;
+    public DropLineState DropLineState { get; private set; }
     private PullLineState pullLineState;
     private HookedItemState hookedItemState;
     private ReceiveItemState receiveItemState;
@@ -33,9 +33,9 @@ public class MiningMachineStateMachine : MonoBehaviour
                 this.stateMachine.ChangeState(this.RotateHookState);
                 break;
             case EMiningMachineState.DropLine:
-                if (this.dropLineState == null)
-                    this.dropLineState = gameObject.AddComponent<DropLineState>();
-                this.stateMachine.ChangeState(this.dropLineState);
+                if (this.DropLineState == null)
+                    this.DropLineState = gameObject.AddComponent<DropLineState>();
+                this.stateMachine.ChangeState(this.DropLineState);
                 break;
             case EMiningMachineState.PullLine:
                 if (this.pullLineState == null)
@@ -107,7 +107,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
 
     private void FixedUpdate()
     {
-        //RotatePivot();
+        //RotatePivot
         if (!isEntering) return;
         this.time += UnityEngine.Time.fixedDeltaTime;
         float rotationZ = Mathf.Sin(this.time * speed) * angleMax;
@@ -118,7 +118,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
     {
         if (!isEntering) return;
         UpdateString();
-        //HandleUserInput();
+        //HandleUserInput
         if (!Input.GetMouseButtonDown(0)) return;
         if (GamePlayStateMachine.Instance.CurrentState != EGamePlayState.Playing) return;
         MiningMachine.StateMachine.ChangeState(EMiningMachineState.DropLine);
@@ -129,6 +129,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
 public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
 {
     [SerializeField] private Vector2 velocity;
+    public float Speed => this.speed;
 
     public void Enter()
     {
@@ -179,7 +180,7 @@ public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = 4f;
+            this.speed = MiningMachine.StateMachine.DropLineState.Speed * 0.6f;
         }
 
         this.isEntering = true;
