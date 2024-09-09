@@ -23,7 +23,7 @@ public class HookCollider : MonoBehaviour
                 switch (itemTag)
                 {
                     case nameof(EItemType.Time):
-                    case nameof(EItemType.Reward):
+                    case nameof(EItemType.Chest):
                         HookItem(currentItem, miningMachineStateMachine);
                         break;
 

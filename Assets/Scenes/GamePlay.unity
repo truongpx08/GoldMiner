@@ -4044,7 +4044,7 @@ MonoBehaviour:
   - {fileID: 1774203120}
   - {fileID: 274543441}
   - {fileID: 2017558500}
-  rewardPrefab: {fileID: 6256915924224804305, guid: a96159f0f4bc74b4b9944df59a58d661, type: 3}
+  chestPrefab: {fileID: 6256915924224804305, guid: a96159f0f4bc74b4b9944df59a58d661, type: 3}
   timePrefab: {fileID: 6256915924224804305, guid: e1a0beb725c768046949b0f8a86fe616, type: 3}
   trapPrefab: {fileID: 6256915924224804305, guid: 00923037f0c51c046a8b48c6848e7afa, type: 3}
 --- !u!4 &2140232505

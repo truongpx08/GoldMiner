@@ -242,7 +242,7 @@ public class ReceiveItemState : MiningMachineBase1State, IEnterState
             case EItemType.Time:
                 UITime.Instance.AddTime();
                 break;
-            case EItemType.Reward:
+            case EItemType.Chest:
                 ScoreText.Instance.IncreaseScore();
                 break;
             default:

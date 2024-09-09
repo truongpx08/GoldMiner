@@ -66,7 +66,7 @@ public class GamePlayPlayingState : GamePlayBaseState, IEnterState
         for (var i = 0; i < 5; i++)
         {
             itemTypeList.Add(EItemType.Time);
-            itemTypeList.Add(EItemType.Reward);
+            itemTypeList.Add(EItemType.Chest);
         }
 
         foreach (var itemType in itemTypeList)

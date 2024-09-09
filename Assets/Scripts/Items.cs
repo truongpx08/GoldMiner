@@ -10,7 +10,7 @@ public class Items : TruongSingleton<Items>
 {
     [SerializeField] private List<Transform> lines;
     public List<Transform> Lines => this.lines;
-    [SerializeField] private GameObject rewardPrefab;
+    [SerializeField] private GameObject chestPrefab;
     [SerializeField] private GameObject timePrefab;
     [SerializeField] private GameObject trapPrefab;
 
@@ -23,7 +23,7 @@ public class Items : TruongSingleton<Items>
                 lineList = GetLines(new List<int> { 2, 5 });
                 return lineList[Random.Range(0, lineList.Count)];
             case EItemType.Time:
-            case EItemType.Reward:
+            case EItemType.Chest:
                 lineList = GetAvailableLines(new List<int> { 3, 4, 6, 7, 8 });
                 Debug.Log(lineList.Count);
                 return lineList[Random.Range(0, lineList.Count)];
@@ -64,7 +64,7 @@ public class Items : TruongSingleton<Items>
         {
             EItemType.Trap => this.trapPrefab,
             EItemType.Time => this.timePrefab,
-            EItemType.Reward => this.rewardPrefab,
+            EItemType.Chest => this.chestPrefab,
             _ => throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null)
         };
     }

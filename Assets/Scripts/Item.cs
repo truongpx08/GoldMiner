@@ -6,7 +6,7 @@ public enum EItemType
 {
     Trap, // Bẫy  
     Time, // Thời gian  
-    Reward // Phần thưởng  
+    Chest // Rương
 }
 
 public class Item : MonoBehaviour
