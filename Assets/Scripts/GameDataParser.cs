@@ -5,14 +5,48 @@ public class GameDataParser
 {
 }
 
-public class BaseApiParser
+[Serializable]
+public class ApiResponse
 {
     public bool success;
+    public string message;
 }
+
+
+[Serializable]
+public class EncryptedObject
+{
+    public string encryptedData;
+}
+
+//EncryptObject
+public class BaseEncryptObject
+{
+    public string timestamp;
+}
+
+[Serializable]
+public class StartEncryptObject : BaseEncryptObject
+{
+    public string level;
+}
+
+[Serializable]
+public class MoveEncryptObject : BaseEncryptObject
+{
+    public string gameId;
+    public string type;
+}
+
+[Serializable]
+public class FinishEncryptObject : MoveEncryptObject
+{
+}
+
 
 // UserData
 [Serializable]
-public class UserData : BaseApiParser
+public class UserData : ApiResponse
 {
     public UserDataDetails data;
 }
@@ -49,7 +83,7 @@ public class CrystalData
 
 // StartData
 [Serializable]
-public class StartData : BaseApiParser
+public class StartData : ApiResponse
 {
     public StartDataDetails data;
 }
@@ -63,7 +97,7 @@ public class StartDataDetails
 // MoveData
 
 [Serializable]
-public class MoveData : BaseApiParser
+public class MoveData : ApiResponse
 {
     public MoveDataDetails data;
 }
@@ -72,4 +106,17 @@ public class MoveData : BaseApiParser
 public class MoveDataDetails
 {
     public float numChest;
+}
+
+// FinishData
+[Serializable]
+public class FinishData : ApiResponse
+{
+    public FinishDataDetails data;
+}
+
+[Serializable]
+public class FinishDataDetails
+{
+    public float tamanXReward;
 }

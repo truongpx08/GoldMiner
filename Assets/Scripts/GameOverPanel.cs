@@ -1,7 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
+
+public enum EFinishType
+{
+    None,
+    buyAll,
+    gacha,
+}
 
 public class GameOverPanel : MonoBehaviour
 {
@@ -11,6 +19,9 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private Transform point;
     [SerializeField] private TextMeshProUGUI rewardText;
     [SerializeField] private GameObject homeButton;
+    [SerializeField] private EFinishType finishType;
+    [SerializeField] private TextMeshProUGUI pointText;
+    public EFinishType FinishType => this.finishType;
 
     public void ShowReward()
     {
@@ -33,5 +44,15 @@ public class GameOverPanel : MonoBehaviour
     public void SetRewardText()
     {
         this.rewardText.text = ScoreText.Instance.Score.ToString();
+    }
+
+    public void SetFinishType(EFinishType buyAll)
+    {
+        this.finishType = buyAll;
+    }
+
+    public void SetPoint(float dataTamanXReward)
+    {
+        this.pointText.text = dataTamanXReward.ToString(CultureInfo.InvariantCulture);
     }
 }

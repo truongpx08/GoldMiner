@@ -11,6 +11,7 @@ public enum EApiType
     GetUserData,
     PostStart,
     PostMove,
+    PostFinish,
 }
 
 public class ApiService : TruongSingleton<ApiService>
@@ -20,6 +21,7 @@ public class ApiService : TruongSingleton<ApiService>
 
     public void Request(EApiType type, Action<string> onComplete = null, Action<string> onError = null)
     {
+        Debug.Log("Requesting " + type);
         switch (type)
         {
             case EApiType.GetUserData:
@@ -30,6 +32,9 @@ public class ApiService : TruongSingleton<ApiService>
                 break;
             case EApiType.PostMove:
                 StartCoroutine(IEPostMove(onComplete, onError));
+                break;
+            case EApiType.PostFinish:
+                StartCoroutine(IEPostFinish(onComplete, onError));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -50,7 +55,7 @@ public class ApiService : TruongSingleton<ApiService>
     private IEnumerator IEPostStart(Action<string> onComplete = null, Action<string> onError = null)
     {
         long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-        var levelObject = new StartObject
+        var levelObject = new StartEncryptObject
         {
             timestamp = timestamp.ToString(),
             level = Option.Instance.CurrentOption.Level.ToString()
@@ -63,14 +68,27 @@ public class ApiService : TruongSingleton<ApiService>
     {
         var hookedItem = MiningMachine.Instance.HookCollider.HookedItem;
         long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-        var moveObject = new MoveObject
+        var encryptObject = new MoveEncryptObject
         {
             timestamp = timestamp.ToString(),
             gameId = GameStateMachine.Instance.PlayingState.Data.gameId,
             type = hookedItem.tag.ToLower()
         };
 
-        yield return IEPostRequest("crystal/move", moveObject, onComplete, onError);
+        yield return IEPostRequest("crystal/move", encryptObject, onComplete, onError);
+    }
+
+    private IEnumerator IEPostFinish(Action<string> onComplete, Action<string> onError)
+    {
+        long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+        var encryptObject = new FinishEncryptObject()
+        {
+            timestamp = timestamp.ToString(),
+            gameId = GameStateMachine.Instance.PlayingState.Data.gameId,
+            type = GamePlayUI.Instance.GameOverPanel.FinishType.ToString()
+        };
+
+        yield return IEPostRequest("crystal/finish", encryptObject, onComplete, onError);
     }
 
     private IEnumerator IEPostRequest(string endpoint, object data, Action<string> onComplete = null,
@@ -78,12 +96,12 @@ public class ApiService : TruongSingleton<ApiService>
     {
         // Chuyển đổi đối tượng thành JSON  
         string jsonData = JsonUtility.ToJson(data);
-        Debug.Log($"Json Data: {jsonData}");
+        // Debug.Log($"Json Data: {jsonData}");
 
         // Mã hóa dữ liệu  
         AesEncryption aes = new AesEncryption("yyr33qEVpWY1a0Kp4o1TyJLBvCRrvaUy");
         string encryptedData = aes.Encrypt(jsonData);
-        Debug.Log($"Encrypted Data: {encryptedData}");
+        // Debug.Log($"Encrypted Data: {encryptedData}");
 
         var encryptedObject = new EncryptedObject { encryptedData = encryptedData };
         var encryptedJson = JsonUtility.ToJson(encryptedObject);
@@ -117,29 +135,6 @@ public class ApiService : TruongSingleton<ApiService>
     }
 }
 
-[Serializable]
-public class StartObject : TimestampObject
-{
-    public string level;
-}
-
-[Serializable]
-public class MoveObject : TimestampObject
-{
-    public string gameId;
-    public string type;
-}
-
-public class TimestampObject
-{
-    public string timestamp;
-}
-
-[Serializable]
-public class EncryptedObject
-{
-    public string encryptedData;
-}
 
 public class AesEncryption
 {
@@ -185,11 +180,4 @@ public class AesEncryption
             }
         }
     }
-}
-
-[Serializable]
-public class ApiResponse
-{
-    public bool success;
-    public string message;
 }
