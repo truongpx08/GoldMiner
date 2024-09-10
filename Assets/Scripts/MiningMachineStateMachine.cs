@@ -17,7 +17,7 @@ public class MiningMachineStateMachine : MonoBehaviour
     private TruongStateMachine stateMachine;
     public RotateHookState RotateHookState { get; private set; }
     public DropLineState DropLineState { get; private set; }
-    private PullLineState pullLineState;
+    public PullLineState PullLineState { get; private set; }
     private HookedItemState hookedItemState;
     private ReceiveItemState receiveItemState;
 
@@ -38,9 +38,9 @@ public class MiningMachineStateMachine : MonoBehaviour
                 this.stateMachine.ChangeState(this.DropLineState);
                 break;
             case EMiningMachineState.PullLine:
-                if (this.pullLineState == null)
-                    this.pullLineState = gameObject.AddComponent<PullLineState>();
-                this.stateMachine.ChangeState(this.pullLineState);
+                if (this.PullLineState == null)
+                    this.PullLineState = gameObject.AddComponent<PullLineState>();
+                this.stateMachine.ChangeState(this.PullLineState);
                 break;
             case EMiningMachineState.HookedItem:
                 if (this.hookedItemState == null)
@@ -167,6 +167,7 @@ public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
     {
         if (this.MiningMachine.HookRenderer.isVisible) return;
         MiningMachine.StateMachine.ChangeState(EMiningMachineState.PullLine);
+        MiningMachine.StateMachine.PullLineState.SetSpeedSameDropLine();
     }
 }
 
@@ -180,10 +181,24 @@ public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = MiningMachine.StateMachine.DropLineState.Speed * 0.6f;
         }
 
         this.isEntering = true;
+    }
+
+    private void SetSpeed(float value)
+    {
+        this.speed = value;
+    }
+
+    public void SetSpeedTo60Percent()
+    {
+        SetSpeed(MiningMachine.StateMachine.DropLineState.Speed * 0.6f);
+    }
+
+    public void SetSpeedSameDropLine()
+    {
+        SetSpeed(MiningMachine.StateMachine.DropLineState.Speed);
     }
 
     public void Exit()
@@ -226,6 +241,7 @@ public class HookedItemState : MiningMachineBase1State, IEnterState
         hookedItemTransform.localPosition = Vector3.zero;
 
         this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.PullLine);
+        this.MiningMachine.StateMachine.PullLineState.SetSpeedTo60Percent();
     }
 }
 

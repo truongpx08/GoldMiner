@@ -30,6 +30,7 @@ public class HookCollider : MonoBehaviour
                     case nameof(EItemType.Trap):
                         ClearHookedItem();
                         miningMachineStateMachine.ChangeState(EMiningMachineState.PullLine);
+                        miningMachineStateMachine.PullLineState.SetSpeedSameDropLine();
                         break;
 
                     default:
@@ -40,6 +41,7 @@ public class HookCollider : MonoBehaviour
             case EMiningMachineState.PullLine:
                 if (itemTag == nameof(EItemType.Trap) && this.HookedItem != null)
                 {
+                    miningMachineStateMachine.PullLineState.SetSpeedSameDropLine();
                     this.HookedItem.StateMachine.ChangeState(EItemState.Disappearing);
                     ClearHookedItem();
                 }
