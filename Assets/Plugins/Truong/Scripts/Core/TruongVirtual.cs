@@ -275,24 +275,25 @@ public abstract class TruongVirtual
     {
         if (number >= 1_000_000_000_000_000)
         {
-            return $"{number / 1_000_000_000_000_000.0:F2}Q"; // Quadrillion  
+            return $"{number / 1_000_000_000_000_000d:F2}Q"; // Quadrillion  
         }
 
         if (number >= 1_000_000_000_000)
         {
-            return $"{number / 1_000_000_000_000.0:F2}T"; // Trillion  
+            return $"{number / 1_000_000_000_000d:F2}T"; // Trillion  
         }
 
         if (number >= 1_000_000_000)
         {
-            return $"{number / 1_000_000_000.0:F2}B"; // Billion  
+            return $"{number / 1_000_000_000d:F2}B"; // Billion  
         }
 
         if (number >= 1_000_000)
         {
-            return $"{number / 1_000_000.0:F2}M"; // Million  
+            return $"{number / 1_000_000d:F2}M"; // Million  
         }
 
-        return number.ToString(); // Trả về dạng số nguyên nếu nhỏ hơn 1 triệu  
+        // Nếu giá trị nhỏ hơn 1 triệu, trả về giá trị float với 2 chữ số thập phân  
+        return $"{number / 1.0d:F2}"; // Trả về dạng số float với 2 chữ số thập phân
     }
 }

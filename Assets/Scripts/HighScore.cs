@@ -10,6 +10,6 @@ public class HighScore : TruongSingleton<HighScore>
 
     public void SetHighScore(float value)
     {
-        this.highScoreText.text = value.ToString(CultureInfo.InvariantCulture);
+        this.highScoreText.text = value.ToString("F2", CultureInfo.InvariantCulture); 
     }
 }

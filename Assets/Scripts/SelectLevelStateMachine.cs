@@ -63,7 +63,7 @@ public class InitializeUIState : MonoBehaviour, IEnterState
     public void Enter()
     {
         var data = SelectLevelStateMachine.Instance.GetDataState.Data.data;
-        HighScore.Instance.SetHighScore(data.highScore);
+        HighScore.Instance.SetHighScore(data.highScore.tamanXClaimed);
         Balance.Instance.SetBalanceText((int)data.user.taman);
         Option.Instance.InitAllButton(data.crystalData);
     }

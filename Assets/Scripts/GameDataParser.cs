@@ -61,8 +61,14 @@ public class UserData : ApiResponse
 public class UserDataDetails
 {
     public User user;
-    public float highScore;
+    public HighScoreData highScore;
     public List<CrystalData> crystalData;
+}
+
+[Serializable]
+public class HighScoreData
+{
+    public float tamanXClaimed;
 }
 
 [Serializable]

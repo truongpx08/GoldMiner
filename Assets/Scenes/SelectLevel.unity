@@ -792,6 +792,7 @@ MonoBehaviour:
   offDownButtonSprite: {fileID: 21300000, guid: 1b5f9aaa3240f9c468636c31b8aba1ab, type: 3}
   onTamanSprite: {fileID: 21300000, guid: 792f0039e2c4f69468e6149f6a9e73cf, type: 3}
   offTamanSprite: {fileID: 21300000, guid: 905e1f25766aa5b4197c51b4fad59037, type: 3}
+  currentOption: {fileID: 0}
 --- !u!1 &255091216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,8 +1325,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.8, y: 207.36}
-  m_SizeDelta: {x: 105.85, y: 82.83}
+  m_AnchoredPosition: {x: 99.27007, y: 207.36}
+  m_SizeDelta: {x: 188.39, y: 82.83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &824942617
 MonoBehaviour:
@@ -1374,14 +1375,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65
+  m_fontSize: 45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 65
+  m_fontSizeMax: 45
   m_fontStyle: 32
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
