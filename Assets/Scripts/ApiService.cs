@@ -23,6 +23,7 @@ public class ApiService : TruongSingleton<ApiService>
     public void SetWallet(string value)
     {
         wallet = value;
+        Debug.LogWarning($"SetWallet {wallet}");
     }
 
     public void Request(EApiType type, Action<string> onComplete = null, Action<string> onError = null)
@@ -49,7 +50,9 @@ public class ApiService : TruongSingleton<ApiService>
 
     private IEnumerator IEGetRequest(string endpoint, Action<string> onComplete = null, Action<string> onError = null)
     {
-        using UnityWebRequest request = UnityWebRequest.Get($"{url}/{endpoint}");//using được sử dụng để đảm bảo rằng các tài nguyên được cấp phát được giải phóng hợp lý sau khi không còn cần thiết
+        using UnityWebRequest
+            request = UnityWebRequest.Get(
+                $"{url}/{endpoint}"); //using được sử dụng để đảm bảo rằng các tài nguyên được cấp phát được giải phóng hợp lý sau khi không còn cần thiết
         request.SetRequestHeader("wallet", wallet.ToLower());
         yield return request.SendWebRequest();
         HandleResponse(request, onComplete, onError);
