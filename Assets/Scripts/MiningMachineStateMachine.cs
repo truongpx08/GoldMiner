@@ -7,7 +7,8 @@ public enum EMiningMachineState
     DropLine, // Thả dây câu  
     PullLine, // Kéo dây câu  
     HookedItem, // Móc trúng vật phẩm  
-    ReceiveItem // Nhận vật phẩm  
+    ReceiveItem, // Nhận vật phẩm  
+    Stop, // Dừng
 }
 
 public class MiningMachineStateMachine : MonoBehaviour
@@ -20,6 +21,7 @@ public class MiningMachineStateMachine : MonoBehaviour
     public PullLineState PullLineState { get; private set; }
     private HookedItemState hookedItemState;
     private ReceiveItemState receiveItemState;
+    private StopState stopState;
 
     public void ChangeState(EMiningMachineState state)
     {
@@ -52,6 +54,10 @@ public class MiningMachineStateMachine : MonoBehaviour
                     this.receiveItemState = gameObject.AddComponent<ReceiveItemState>();
                 this.stateMachine.ChangeState(this.receiveItemState);
                 break;
+            case EMiningMachineState.Stop:
+                this.stopState ??= gameObject.AddComponent<StopState>();
+                this.stateMachine.ChangeState(this.stopState);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
@@ -69,6 +75,11 @@ public class MiningMachineBase2State : MiningMachineBase1State
     [SerializeField] protected bool isEntering;
     [SerializeField] protected bool hasInit;
     [SerializeField] protected float speed;
+
+    public void SetSpeed(float value)
+    {
+        this.speed = value;
+    }
 
     protected void UpdateString()
     {
@@ -186,10 +197,6 @@ public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
         this.isEntering = true;
     }
 
-    private void SetSpeed(float value)
-    {
-        this.speed = value;
-    }
 
     public void SetSpeedTo60Percent()
     {
@@ -274,5 +281,22 @@ public class ReceiveItemState : MiningMachineBase1State, IEnterState
         }, _ => { MiningMachine.HookCollider.ClearHookedItem(); });
 
         this.MiningMachine.StateMachine.ChangeState(EMiningMachineState.RotateHook);
+    }
+}
+
+public class StopState : MiningMachineBase1State, IEnterState
+{
+    public void Enter()
+    {
+        var stateMachine = this.MiningMachine.StateMachine;
+
+        if (stateMachine.RotateHookState != null)
+            stateMachine.RotateHookState.SetSpeed(0);
+        if (stateMachine.PullLineState != null)
+            stateMachine.PullLineState.SetSpeed(0);
+        if (stateMachine.DropLineState != null)
+            stateMachine.DropLineState.SetSpeed(0);
+
+        Items.Instance.StopAll();
     }
 }

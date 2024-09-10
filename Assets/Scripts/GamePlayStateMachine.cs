@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public enum EGamePlayState
@@ -24,6 +25,7 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
         ChangeState(EGamePlayState.Playing);
     }
 
+    [Button]
     public void ChangeState(EGamePlayState state)
     {
         this.currentState = state;
@@ -59,22 +61,7 @@ public class GamePlayPlayingState : GamePlayBaseState, IEnterState
     {
         GamePlayUI.Instance.GameOverPanel.gameObject.SetActive(false);
         MiningMachine.Instance.StateMachine.ChangeState(EMiningMachineState.RotateHook);
-
-        // SpawnItem
-        var itemTypeList = new List<EItemType> { EItemType.Trap };
-        if (itemTypeList == null) throw new ArgumentNullException(nameof(itemTypeList));
-        for (var i = 0; i < 5; i++)
-        {
-            itemTypeList.Add(EItemType.Time);
-            itemTypeList.Add(EItemType.Chest);
-        }
-
-        foreach (var itemType in itemTypeList)
-        {
-            var item = Instantiate(Items.Instance.GetItemPrefabWithType(itemType),
-                Items.Instance.GetRandomLineWithItem(itemType));
-            item.GetComponent<Item>().StateMachine.ChangeState(EItemState.Appearing);
-        }
+        Items.Instance.SpawnAllItem();
     }
 }
 
@@ -82,6 +69,7 @@ public class ShowRewardState : GamePlayBaseState, IEnterState
 {
     public void Enter()
     {
+        MiningMachine.Instance.StateMachine.ChangeState(EMiningMachineState.Stop);
         GameOverPanel.gameObject.SetActive(true);
         GameOverPanel.ShowReward();
         this.GameOverPanel.SetRewardText();

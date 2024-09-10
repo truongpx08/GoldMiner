@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 788104654}
   - component: {fileID: 788104655}
   m_Layer: 0
-  m_Name: ApiRequest
+  m_Name: ApiService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallet: 0x2697701abf866ef7062cc708448741c0bbf93d16
+  url: https://refactor.faraland.moonknightlabs.com
 --- !u!4 &788104653
 Transform:
   m_ObjectHideFlags: 0

@@ -10,7 +10,8 @@ public enum EItemState
     Appearing, // Hiện ra  
     Moving, // Di chuyển  
     CaughtByMachine, // Bị máy đào gắp trúng  
-    Disappearing // Ẩn đi  
+    Disappearing, // Ẩn đi  
+    Stop // Dung lai
 }
 
 public class ItemStateMachine : MonoBehaviour
@@ -21,6 +22,7 @@ public class ItemStateMachine : MonoBehaviour
     private ItemMovingState movingState;
     private CaughtByMachineState caughtByMachineState;
     private ItemDisappearingState disappearingState;
+    private ItemStopState stop;
 
 
     public void ChangeState(EItemState state)
@@ -44,6 +46,10 @@ public class ItemStateMachine : MonoBehaviour
             case EItemState.Disappearing:
                 this.disappearingState ??= gameObject.AddComponent<ItemDisappearingState>();
                 this.stateMachine.ChangeState(this.disappearingState);
+                break;
+            case EItemState.Stop:
+                this.stop ??= gameObject.AddComponent<ItemStopState>();
+                this.stateMachine.ChangeState(this.stop);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -180,5 +186,12 @@ public class ItemDisappearingState : ItemBaseState, IEnterState
     {
         LoadItemReference();
         this.itemReference.gameObject.SetActive(false);
+    }
+}
+
+public class ItemStopState : ItemBaseState, IEnterState
+{
+    public void Enter()
+    {
     }
 }

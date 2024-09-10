@@ -19,6 +19,11 @@ public class ApiService : TruongSingleton<ApiService>
     [SerializeField] private string wallet;
     [SerializeField] private string url = "https://refactor.faraland.moonknightlabs.com";
 
+    public void SetWallet(string value)
+    {
+        this.wallet = value;
+    }
+
     public void Request(EApiType type, Action<string> onComplete = null, Action<string> onError = null)
     {
         Debug.Log("Requesting " + type);
@@ -55,6 +60,7 @@ public class ApiService : TruongSingleton<ApiService>
     private IEnumerator IEPostStart(Action<string> onComplete = null, Action<string> onError = null)
     {
         long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+        Debug.Log(DateTime.UtcNow);
         var levelObject = new StartEncryptObject
         {
             timestamp = timestamp.ToString(),

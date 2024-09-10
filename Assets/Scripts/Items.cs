@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class Items : TruongSingleton<Items>
@@ -13,8 +12,9 @@ public class Items : TruongSingleton<Items>
     [SerializeField] private GameObject chestPrefab;
     [SerializeField] private GameObject timePrefab;
     [SerializeField] private GameObject trapPrefab;
+    [SerializeField] private List<Item> itemList;
 
-    public Transform GetRandomLineWithItem(EItemType itemType)
+    private Transform GetRandomLineWithItem(EItemType itemType)
     {
         List<Transform> lineList;
         switch (itemType)
@@ -70,7 +70,7 @@ public class Items : TruongSingleton<Items>
     }
 
     [Button]
-    float UpdatePositionLines()
+    private float UpdatePositionLines()
     {
         int count = this.lines.Count;
 
@@ -93,5 +93,35 @@ public class Items : TruongSingleton<Items>
         }
 
         return yPerLine;
+    }
+
+    public void StopAll()
+    {
+        foreach (var item in this.itemList)
+        {
+            item.StateMachine.ChangeState(EItemState.Stop);
+        }
+    }
+
+    public void SpawnAllItem()
+    {
+        var itemTypeList = new List<EItemType> { EItemType.Trap };
+        if (itemTypeList == null) throw new ArgumentNullException(nameof(itemTypeList));
+        for (var i = 0; i < 5; i++)
+        {
+            itemTypeList.Add(EItemType.Time);
+            itemTypeList.Add(EItemType.Chest);
+        }
+
+        foreach (var itemType in itemTypeList)
+        {
+            var item = Instantiate(GetItemPrefabWithType(itemType),
+                GetRandomLineWithItem(itemType));
+
+            var itemComponent = item.GetComponent<Item>();
+            itemComponent.StateMachine.ChangeState(EItemState.Appearing);
+
+            this.itemList.Add(itemComponent);
+        }
     }
 }
