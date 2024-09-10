@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -21,7 +22,7 @@ public class ApiService : TruongSingleton<ApiService>
 
     public void SetWallet(string value)
     {
-        this.wallet = value;
+        wallet = value;
     }
 
     public void Request(EApiType type, Action<string> onComplete = null, Action<string> onError = null)
@@ -30,94 +31,94 @@ public class ApiService : TruongSingleton<ApiService>
         switch (type)
         {
             case EApiType.GetUserData:
-                StartCoroutine(IEGetUserData(onComplete, onError));
+                StartCoroutine(IEGetRequest("crystal", onComplete, onError));
                 break;
             case EApiType.PostStart:
-                StartCoroutine(IEPostStart(onComplete, onError));
+                StartPostRequest("start", CreateStartEncryptObject, onComplete, onError);
                 break;
             case EApiType.PostMove:
-                StartCoroutine(IEPostMove(onComplete, onError));
+                StartPostRequest("move", CreateMoveEncryptObject, onComplete, onError);
                 break;
             case EApiType.PostFinish:
-                StartCoroutine(IEPostFinish(onComplete, onError));
+                StartPostRequest("finish", CreateFinishEncryptObject, onComplete, onError);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 
-
-    private IEnumerator IEGetUserData(Action<string> onComplete = null, Action<string> onError = null)
+    private IEnumerator IEGetRequest(string endpoint, Action<string> onComplete = null, Action<string> onError = null)
     {
-        UnityWebRequest request = UnityWebRequest.Get($"{this.url}/crystal");
+        using UnityWebRequest request = UnityWebRequest.Get($"{url}/{endpoint}");//using được sử dụng để đảm bảo rằng các tài nguyên được cấp phát được giải phóng hợp lý sau khi không còn cần thiết
         request.SetRequestHeader("wallet", wallet.ToLower());
-
         yield return request.SendWebRequest();
-
         HandleResponse(request, onComplete, onError);
     }
 
-    private IEnumerator IEPostStart(Action<string> onComplete = null, Action<string> onError = null)
+    private void StartPostRequest(string action, Func<long, object> createEncryptObject, Action<string> onComplete,
+        Action<string> onError)
     {
-        long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-        Debug.Log(DateTime.UtcNow);
-        var levelObject = new StartEncryptObject
+        StartCoroutine(IEGetRequest("time", json =>
+        {
+            long timestamp = ParseTimestamp(json);
+            var encryptObject = createEncryptObject(timestamp);
+            StartCoroutine(IEPostRequest($"crystal/{action}", encryptObject, onComplete, onError));
+        }, onError));
+    }
+
+    private long ParseTimestamp(string json)
+    {
+        var obj = JsonUtility.FromJson<TimeData>(json);
+        return obj.timestamp;
+    }
+
+    private object CreateStartEncryptObject(long timestamp)
+    {
+        return new StartEncryptObject
         {
             timestamp = timestamp.ToString(),
             level = Option.Instance.CurrentOption.Level.ToString()
         };
-
-        yield return IEPostRequest("crystal/start", levelObject, onComplete, onError);
     }
 
-    private IEnumerator IEPostMove(Action<string> onComplete, Action<string> onError)
+    private object CreateMoveEncryptObject(long timestamp)
     {
         var hookedItem = MiningMachine.Instance.HookCollider.HookedItem;
-        long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-        var encryptObject = new MoveEncryptObject
+        return new MoveEncryptObject
         {
             timestamp = timestamp.ToString(),
             gameId = GameStateMachine.Instance.PlayingState.Data.gameId,
             type = hookedItem.tag.ToLower()
         };
-
-        yield return IEPostRequest("crystal/move", encryptObject, onComplete, onError);
     }
 
-    private IEnumerator IEPostFinish(Action<string> onComplete, Action<string> onError)
+    private object CreateFinishEncryptObject(long timestamp)
     {
-        long timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-        var encryptObject = new FinishEncryptObject()
+        return new FinishEncryptObject
         {
             timestamp = timestamp.ToString(),
             gameId = GameStateMachine.Instance.PlayingState.Data.gameId,
             type = GamePlayUI.Instance.GameOverPanel.FinishType.ToString()
         };
-
-        yield return IEPostRequest("crystal/finish", encryptObject, onComplete, onError);
     }
 
     private IEnumerator IEPostRequest(string endpoint, object data, Action<string> onComplete = null,
         Action<string> onError = null)
     {
-        // Chuyển đổi đối tượng thành JSON  
         string jsonData = JsonUtility.ToJson(data);
-        // Debug.Log($"Json Data: {jsonData}");
+        string encryptedData = EncryptData(jsonData);
 
-        // Mã hóa dữ liệu  
-        AesEncryption aes = new AesEncryption("yyr33qEVpWY1a0Kp4o1TyJLBvCRrvaUy");
-        string encryptedData = aes.Encrypt(jsonData);
-        // Debug.Log($"Encrypted Data: {encryptedData}");
-
-        var encryptedObject = new EncryptedObject { encryptedData = encryptedData };
-        var encryptedJson = JsonUtility.ToJson(encryptedObject);
-
-        // Gửi yêu cầu POST  
-        using var request = UnityWebRequest.Post($"{this.url}/{endpoint}", encryptedJson, "application/json");
+        using var request = UnityWebRequest.Post($"{url}/{endpoint}", encryptedData, "application/json");
         request.SetRequestHeader("wallet", wallet.ToLower());
         yield return request.SendWebRequest();
-
         HandleResponse(request, onComplete, onError);
+    }
+
+    private string EncryptData(string jsonData)
+    {
+        AesEncryption aes = new AesEncryption("yyr33qEVpWY1a0Kp4o1TyJLBvCRrvaUy");
+        var encryptedObject = new EncryptedObject { encryptedData = aes.Encrypt(jsonData) };
+        return JsonUtility.ToJson(encryptedObject);
     }
 
     private void HandleResponse(UnityWebRequest request, Action<string> onComplete, Action<string> onError)
@@ -134,7 +135,7 @@ public class ApiService : TruongSingleton<ApiService>
             Debug.Log($"Api Response: {responseJson}");
             ApiResponse responseObj = JsonUtility.FromJson<ApiResponse>(responseJson);
             if (responseObj.success)
-                onComplete?.Invoke(request.downloadHandler.text);
+                onComplete?.Invoke(responseJson);
             else
                 ErrorPopup.Instance.ShowError(responseObj.message);
         }

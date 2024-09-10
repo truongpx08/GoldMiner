@@ -12,11 +12,17 @@ public class ApiResponse
     public string message;
 }
 
-
 [Serializable]
 public class EncryptedObject
 {
     public string encryptedData;
+}
+
+//Time
+[Serializable]
+public class TimeData : ApiResponse
+{
+    public long timestamp;
 }
 
 //EncryptObject
