@@ -45,6 +45,7 @@ public class OptionButton : TruongUIButton
     {
         this.selectedImage.SetActive(true);
         Option.Instance.SetCurrentOption(this);
+        DataManager.Instance.SetLevel(this.level);
         OptionDescriptionText.Instance.SetText(level);
     }
 

@@ -14,6 +14,7 @@ public class SellButton : TruongUIButton
             {
                 var jsonObject = JsonUtility.FromJson<FinishData>(json);
                 GamePlayUI.Instance.GameOverPanel.SetPoint(jsonObject.data.tamanXReward);
+                GamePlayUI.Instance.GameOverPanel.SetTamanXBalance(jsonObject.data.totalTamanX);
                 GamePlayStateMachine.Instance.ChangeState(EGamePlayState.TransferRewardToPoint);
             });
         });

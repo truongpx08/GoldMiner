@@ -72,7 +72,9 @@ public class ShowRewardState : GamePlayBaseState, IEnterState
         MiningMachine.Instance.StateMachine.ChangeState(EMiningMachineState.Stop);
         GameOverPanel.gameObject.SetActive(true);
         GameOverPanel.ShowReward();
-        this.GameOverPanel.SetRewardText();
+        GameOverPanel.SetTamanXBalance(DataManager.Instance.UserData.data.user.tamanX);
+        GameOverPanel.SetRewardText();
+        GameOverPanel.SetDescriptionText();
     }
 }
 

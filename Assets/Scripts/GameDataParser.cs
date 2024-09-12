@@ -141,4 +141,5 @@ public class FinishData : ApiResponse
 public class FinishDataDetails
 {
     public float tamanXReward;
+    public float totalTamanX;
 }
