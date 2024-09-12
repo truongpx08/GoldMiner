@@ -45,6 +45,7 @@ public class OptionButton : TruongUIButton
     {
         this.selectedImage.SetActive(true);
         Option.Instance.SetCurrentOption(this);
+        OptionDescriptionText.Instance.SetText(level);
     }
 
     public void Init(CrystalData crystalData)

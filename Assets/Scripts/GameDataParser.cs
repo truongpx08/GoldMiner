@@ -61,8 +61,18 @@ public class UserData : ApiResponse
 public class UserDataDetails
 {
     public User user;
+    public ChanceData chance;
     public HighScoreData highScore;
     public List<CrystalData> crystalData;
+}
+
+[Serializable]
+public class ChanceData
+{
+    public int NORMAL_CHEST;
+    public int RARE_CHEST;
+    public int EPIC_CHEST;
+    public int LEGENDARY_CHEST;
 }
 
 [Serializable]

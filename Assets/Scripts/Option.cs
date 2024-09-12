@@ -24,17 +24,6 @@ public class Option : TruongSingleton<Option>
     public OptionButton CurrentOption => this.currentOption;
     public Sprite OffTamanSprite => this.offTamanSprite;
 
-    protected override void Start()
-    {
-        base.Start();
-        buttons.ForEach(item =>
-        {
-            if (item == buttons[0])
-                item.Select();
-            else
-                item.UnSelect();
-        });
-    }
 
     public void InitAllButton(List<CrystalData> data)
     {
@@ -44,10 +33,23 @@ public class Option : TruongSingleton<Option>
             button.Init(data[index]);
             index++;
         }
+
+        SelectFirstButton();
     }
 
     public void SetCurrentOption(OptionButton optionButton)
     {
         this.currentOption = optionButton;
+    }
+
+    private void SelectFirstButton()
+    {
+        buttons.ForEach(item =>
+        {
+            if (item == buttons[0])
+                item.Select();
+            else
+                item.UnSelect();
+        });
     }
 }
