@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -24,6 +25,10 @@ public class ApiService : TruongSingleton<ApiService>
     {
         wallet = value;
         Debug.LogWarning($"SetWallet {wallet}");
+        if (value.IsNullOrWhitespace())
+            ErrorPopup.Instance.ShowError($"Wallet {wallet} error");
+        else
+            GameStateMachine.Instance.ChangeState(EGameState.SelectLevel);
     }
 
     public void Request(EApiType type, Action<string> onComplete = null, Action<string> onError = null)
