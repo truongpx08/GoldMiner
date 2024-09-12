@@ -18,6 +18,8 @@ public class OptionButton : TruongUIButton
     [SerializeField] private TextMeshProUGUI feeText;
     [SerializeField] private Image icon;
     [SerializeField] private int level;
+    [SerializeField] private bool isAvailable;
+    public bool IsAvailable => this.isAvailable;
     public int Level => this.level;
 
     protected override void Start()
@@ -52,6 +54,7 @@ public class OptionButton : TruongUIButton
     public void Init(CrystalData crystalData)
     {
         this.level = crystalData.level;
+        this.isAvailable = crystalData.AVAILABLE;
         if (crystalData.AVAILABLE)
         {
             this.bg.sprite =
