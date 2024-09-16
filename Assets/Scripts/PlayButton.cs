@@ -9,7 +9,7 @@ public class PlayButton : TruongUIButton
         base.Start();
         AddActionToButton(() =>
         {
-            if (Option.Instance.CurrentOption.IsAvailable)
+            if (Option.Instance.CurrentOption.Data.AVAILABLE)
                 ApiService.Instance.Request(EApiType.PostStart,
                     json =>
                     {

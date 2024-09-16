@@ -17,10 +17,8 @@ public class OptionButton : TruongUIButton
     [SerializeField] private Image bg;
     [SerializeField] private TextMeshProUGUI feeText;
     [SerializeField] private Image icon;
-    [SerializeField] private int level;
-    [SerializeField] private bool isAvailable;
-    public bool IsAvailable => this.isAvailable;
-    public int Level => this.level;
+    [SerializeField] private CrystalData data;
+    public CrystalData Data => this.data;
 
     protected override void Start()
     {
@@ -47,15 +45,14 @@ public class OptionButton : TruongUIButton
     {
         this.selectedImage.SetActive(true);
         Option.Instance.SetCurrentOption(this);
-        DataManager.Instance.SetLevel(this.level);
-        OptionDescriptionText.Instance.SetText(level);
+        DataManager.Instance.SetLevel(this.data.level);
+        OptionDescriptionText.Instance.SetText(this.data.level);
     }
 
     public void Init(CrystalData crystalData)
     {
-        this.level = crystalData.level;
-        this.isAvailable = crystalData.AVAILABLE;
-        if (crystalData.AVAILABLE)
+        this.data = crystalData;
+        if (this.data.AVAILABLE)
         {
             this.bg.sprite =
                 type == EOptionButtonType.Up
@@ -72,6 +69,6 @@ public class OptionButton : TruongUIButton
             this.icon.sprite = Option.Instance.OffTamanSprite;
         }
 
-        this.feeText.text = TruongVirtual.FormatNumber(crystalData.FEE_INPUT);
+        this.feeText.text = TruongVirtual.FormatNumber(this.data.FEE_INPUT);
     }
 }

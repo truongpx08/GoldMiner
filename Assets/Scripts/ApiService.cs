@@ -85,7 +85,7 @@ public class ApiService : TruongSingleton<ApiService>
         return new StartEncryptObject
         {
             timestamp = timestamp.ToString(),
-            level = Option.Instance.CurrentOption.Level.ToString()
+            level = Option.Instance.CurrentOption.Data.level.ToString()
         };
     }
 

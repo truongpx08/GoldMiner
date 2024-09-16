@@ -569,7 +569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 246.5127, y: 206.22827}
+  m_AnchoredPosition: {x: 129, y: 151}
   m_SizeDelta: {x: 161.0254, y: 83.3199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1883504239
@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.87169814, g: 0.1825632, b: 0.1825632, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -727,7 +727,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can earn taman point by playing game in this link.
+  m_text: 'you need at least 434343 point Taman to use this option
+
+    You can earn
+    taman points by playing game in this Link'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 27fcac8f45b9d26419d02aaa8520b631, type: 2}
   m_sharedMaterial: {fileID: 6445563038899720203, guid: 27fcac8f45b9d26419d02aaa8520b631, type: 2}
@@ -761,7 +764,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 45
   m_fontStyle: 16
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

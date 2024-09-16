@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: thesimssansbold_font SDF
   m_EditorClassIdentifier: 
-  hashCode: 1759402251
+  hashCode: 1515633930
   material: {fileID: 6445563038899720203}
-  materialHashCode: -118938677
+  materialHashCode: -742268054
   m_Version: 1.1.0
   m_SourceFontFileGUID: d64d821b0341c1343b8fbd1a163571be
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: d64d821b0341c1343b8fbd1a163571be, type: 3}
