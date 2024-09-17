@@ -17,6 +17,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 0f95654c5ba1e644d96d8787167a30a6, type: 3}
     - target: {fileID: 1879083337439182608, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Size.x
+      value: 1.5286282
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879083337439182608, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Size.y
+      value: 1.6143273
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879083337439182608, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.040171683
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879083337439182608, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.005738795
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879083337439182608, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 1.49
       objectReference: {fileID: 0}
@@ -24,6 +40,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1.57
       objectReference: {fileID: 0}
+    - target: {fileID: 1933534047397707962, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a95eecd322585404f96cc8009b1e528a, type: 2}
     - target: {fileID: 3290608493188356162, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_Name
       value: Chest
@@ -32,6 +52,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Chest
       objectReference: {fileID: 0}
+    - target: {fileID: 4189722495968802107, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: _animationName
+      value: move
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189722495968802107, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 50a1dedf9c94fbf46ae91e7e48f5430f, type: 2}
     - target: {fileID: 4804703458138787401, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -79,6 +107,14 @@ PrefabInstance:
     - target: {fileID: 5687383550346250412, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8132493357946110391, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 638c97db112bbca4d9cde5c839ee858f, type: 3}
+    - target: {fileID: 8367906588937015121, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

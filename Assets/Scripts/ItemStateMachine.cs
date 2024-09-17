@@ -78,7 +78,8 @@ public class AppearingState : ItemBaseState, IEnterState
     public void Enter()
     {
         LoadItemReference();
-        this.itemReference.SR.sprite = this.itemReference.CharacterSprite;
+        this.itemReference.CharacterSpine.gameObject.SetActive(true);
+        this.itemReference.Reward.gameObject.SetActive(false);
 
         //Set Position
         var line = this.itemReference.transform.parent;
@@ -176,7 +177,8 @@ public class CaughtByMachineState : ItemBaseState, IEnterState
     public void Enter()
     {
         LoadItemReference();
-        this.itemReference.SR.sprite = this.itemReference.RewardSprite;
+        this.itemReference.CharacterSpine.gameObject.SetActive(false);
+        this.itemReference.Reward.gameObject.SetActive(true);
     }
 }
 
