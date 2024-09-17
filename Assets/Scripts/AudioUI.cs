@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Audio : TruongUIButton
+public class AudioUI : TruongUIButton
 {
     [SerializeField] private bool isOn;
     [SerializeField] private Image image;
@@ -13,6 +13,7 @@ public class Audio : TruongUIButton
     protected override void Start()
     {
         this.isOn = PlayerPrefs.GetInt(AudioKey, 1) == 1;
+        AudioManager.Instance.SetStatus(isOn);
         UpdateSpite();
         AddActionToButton(OnClickButton);
     }
@@ -29,5 +30,6 @@ public class Audio : TruongUIButton
         // save
         PlayerPrefs.SetInt(AudioKey, isOn ? 1 : 0);
         PlayerPrefs.Save(); // Lưu thay đổi  
+        AudioManager.Instance.SetStatus(isOn);
     }
 }

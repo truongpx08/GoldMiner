@@ -82,10 +82,12 @@ public class ApiService : TruongSingleton<ApiService>
 
     private object CreateStartEncryptObject(long timestamp)
     {
+        var level = Option.Instance.CurrentOption.Data.level.ToString();
+        Debug.Log($"CreateStartEncryptObject {timestamp} {level}");
         return new StartEncryptObject
         {
             timestamp = timestamp.ToString(),
-            level = Option.Instance.CurrentOption.Data.level.ToString()
+            level = level
         };
     }
 

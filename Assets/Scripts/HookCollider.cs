@@ -23,11 +23,16 @@ public class HookCollider : MonoBehaviour
                 switch (itemTag)
                 {
                     case nameof(EItemType.Time):
+                        AudioManager.Instance.PlaySoundEffect(EAudioClipName.Time);
+                        HookItem(currentItem, miningMachineStateMachine);
+                        break;
                     case nameof(EItemType.Chest):
+                        AudioManager.Instance.PlaySoundEffect(EAudioClipName.Box);
                         HookItem(currentItem, miningMachineStateMachine);
                         break;
 
                     case nameof(EItemType.Trap):
+                        AudioManager.Instance.PlaySoundEffect(EAudioClipName.Block);
                         ClearHookedItem();
                         miningMachineStateMachine.ChangeState(EMiningMachineState.PullLine);
                         miningMachineStateMachine.PullLineState.SetSpeedSameDropLine();
@@ -41,6 +46,7 @@ public class HookCollider : MonoBehaviour
             case EMiningMachineState.PullLine:
                 if (itemTag == nameof(EItemType.Trap) && this.HookedItem != null)
                 {
+                    AudioManager.Instance.PlaySoundEffect(EAudioClipName.Block);
                     miningMachineStateMachine.PullLineState.SetSpeedSameDropLine();
                     this.HookedItem.StateMachine.ChangeState(EItemState.Disappearing);
                     ClearHookedItem();

@@ -107,6 +107,7 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
 
         this.MiningMachine.HookRb.velocity = Vector2.zero;
         this.MiningMachine.HookTransform.localPosition = initialPosition; // Khôi phục vị trí ban đầu  
+        AudioManager.Instance.StopPullLine();
 
         this.isEntering = true;
     }
@@ -149,6 +150,8 @@ public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
             hasInit = true;
             this.speed = 4f;
         }
+
+        AudioManager.Instance.PlaySoundEffect(EAudioClipName.Hook);
 
         this.isEntering = true;
     }
@@ -193,6 +196,8 @@ public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
         {
             hasInit = true;
         }
+
+        AudioManager.Instance.PlayPullLineClip();
 
         this.isEntering = true;
     }
