@@ -19,7 +19,13 @@ public enum EApiType
 public class ApiService : TruongSingleton<ApiService>
 {
     [SerializeField] private string wallet;
-    [SerializeField] private string url = "https://refactor.faraland.moonknightlabs.com";
+    [SerializeField] private string url;
+
+    protected override void Start()
+    {
+        base.Start();
+        url = "https://api.taman.fun";
+    }
 
     public void SetWallet(string value)
     {
@@ -59,6 +65,7 @@ public class ApiService : TruongSingleton<ApiService>
             request = UnityWebRequest.Get(
                 $"{url}/{endpoint}"); //using được sử dụng để đảm bảo rằng các tài nguyên được cấp phát được giải phóng hợp lý sau khi không còn cần thiết
         request.SetRequestHeader("wallet", wallet.ToLower());
+        Debug.Log($"Request url: " + this.url);
         yield return request.SendWebRequest();
         HandleResponse(request, onComplete, onError);
     }
