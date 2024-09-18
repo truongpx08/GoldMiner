@@ -75,6 +75,8 @@ public class ShowRewardState : GamePlayBaseState, IEnterState
         GameOverPanel.SetTamanXBalance(DataManager.Instance.UserData.data.user.tamanX);
         GameOverPanel.SetRewardText();
         GameOverPanel.SetDescriptionText();
+
+        AudioManager.Instance.StopPullLine();
     }
 }
 
