@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7642672390842237077, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7642672390842237077, guid: 99a32fff76020bf458dfed58ceec6f91, type: 3}
       propertyPath: rewardSprite
       value: 
       objectReference: {fileID: 21300000, guid: e0020ec3699929342aca60f80c787f13, type: 3}

@@ -148,7 +148,7 @@ public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
         if (!this.hasInit)
         {
             hasInit = true;
-            this.speed = 4f;
+            this.speed = GameConfig.DropLineSpeed;
         }
 
         AudioManager.Instance.PlaySoundEffect(EAudioClipName.Hook);
@@ -181,7 +181,7 @@ public class DropLineState : MiningMachineBase2State, IEnterState, IExitState
     {
         if (this.MiningMachine.HookRenderer.isVisible) return;
         MiningMachine.StateMachine.ChangeState(EMiningMachineState.PullLine);
-        MiningMachine.StateMachine.PullLineState.SetSpeedSameDropLine();
+        MiningMachine.StateMachine.PullLineState.SetOriginSpeed();
     }
 }
 
@@ -205,12 +205,12 @@ public class PullLineState : MiningMachineBase2State, IEnterState, IExitState
 
     public void SetSpeedTo60Percent()
     {
-        SetSpeed(MiningMachine.StateMachine.DropLineState.Speed * 0.6f);
+        SetSpeed(GameConfig.PullLineSpeed * 0.6f);
     }
 
-    public void SetSpeedSameDropLine()
+    public void SetOriginSpeed()
     {
-        SetSpeed(MiningMachine.StateMachine.DropLineState.Speed);
+        SetSpeed(GameConfig.PullLineSpeed);
     }
 
     public void Exit()

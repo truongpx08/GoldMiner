@@ -51,7 +51,7 @@ public class ErrorPopup : TruongSingleton<ErrorPopup>
     public void ShowErrorWithLink()
     {
         this.notificationText.text =
-            $"you need at least {TruongVirtual.GetColorTextFromHex(Option.Instance.CurrentOption.Data.FEE_INPUT, "DF2F2F")} to use this option\nYou can earn taman points by playing game in this {TruongVirtual.GetColorTextFromHex("Link.", "47A989")} ";
+            $"you need at least {TruongVirtual.GetColorTextFromHex(TruongVirtual.FormatNumber(Option.Instance.CurrentOption.Data.BALANCE_UNLOCK), "DF2F2F")} to use this option\nYou can earn taman points by playing game in this {TruongVirtual.GetColorTextFromHex("Link.", "47A989")} ";
         EnableContent();
         this.linkButton.SetActive(true);
     }

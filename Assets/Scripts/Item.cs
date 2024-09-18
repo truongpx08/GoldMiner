@@ -11,6 +11,8 @@ public enum EItemType
 
 public class Item : MonoBehaviour
 {
+    [SerializeField] private EItemType type;
+    public EItemType Type => this.type;
     [SerializeField] private ItemStateMachine stateMachine;
     public ItemStateMachine StateMachine => this.stateMachine;
     [SerializeField] private GameObject characterSpine;

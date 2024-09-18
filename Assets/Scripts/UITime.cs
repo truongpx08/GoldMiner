@@ -51,6 +51,6 @@ public class UITime : TruongSingleton<UITime>
     [Button]
     public void AddTime()
     {
-        this.countdownTime = Mathf.Min(this.countdownTime + 2, this.maxTime);
+        this.countdownTime = Mathf.Min(this.countdownTime + GameConfig.TimeBonusAmount, this.maxTime);
     }
 }

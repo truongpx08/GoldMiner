@@ -93,7 +93,7 @@ public class User
 public class CrystalData
 {
     public int level;
-    public float BALANCE_UNLOCK;
+    public long BALANCE_UNLOCK;
     public long FEE_INPUT;
     public float CHEST_VALUE;
     public float NORMAL_CHEST;

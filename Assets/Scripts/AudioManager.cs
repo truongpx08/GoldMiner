@@ -62,6 +62,7 @@ public class AudioManager : TruongSingleton<AudioManager>
     {
         if (soundEffectsOn)
         {
+            if (soundEffectSource.isPlaying) soundEffectSource.Stop();
             soundEffectSource.PlayOneShot(clip);
         }
     }

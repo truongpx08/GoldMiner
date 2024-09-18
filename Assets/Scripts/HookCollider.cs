@@ -35,7 +35,7 @@ public class HookCollider : MonoBehaviour
                         AudioManager.Instance.PlaySoundEffect(EAudioClipName.Block);
                         ClearHookedItem();
                         miningMachineStateMachine.ChangeState(EMiningMachineState.PullLine);
-                        miningMachineStateMachine.PullLineState.SetSpeedSameDropLine();
+                        miningMachineStateMachine.PullLineState.SetOriginSpeed();
                         break;
 
                     default:
@@ -47,7 +47,7 @@ public class HookCollider : MonoBehaviour
                 if (itemTag == nameof(EItemType.Trap) && this.HookedItem != null)
                 {
                     AudioManager.Instance.PlaySoundEffect(EAudioClipName.Block);
-                    miningMachineStateMachine.PullLineState.SetSpeedSameDropLine();
+                    miningMachineStateMachine.PullLineState.SetOriginSpeed();
                     this.HookedItem.StateMachine.ChangeState(EItemState.Disappearing);
                     ClearHookedItem();
                 }

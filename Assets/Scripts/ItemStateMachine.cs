@@ -101,7 +101,7 @@ public class AppearingState : ItemBaseState, IEnterState
 public class ItemMovingState : ItemBaseState, IEnterState, IExitState
 {
     [SerializeField] private bool entering;
-    [SerializeField] private float speed = 4f; // Tốc độ di chuyển  
+    [SerializeField] private float speed; // Tốc độ di chuyển  
 
     [SerializeField] private bool movingToRight;
     private Vector3 targetPosition; // Vị trí đích  
@@ -110,6 +110,22 @@ public class ItemMovingState : ItemBaseState, IEnterState, IExitState
     public void Enter()
     {
         LoadItemReference();
+        switch (this.itemReference.Type)
+        {
+            case EItemType.Trap:
+                this.speed = GameConfig.TrapSpeed;
+                break;
+            case EItemType.Time:
+                this.speed = GameConfig.TimeSpeed;
+                break;
+            case EItemType.Chest:
+                this.speed = GameConfig.ChestSpeed;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+
         this.entering = true;
     }
 
