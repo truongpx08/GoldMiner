@@ -49,6 +49,11 @@ public class FinishEncryptObject : MoveEncryptObject
 {
 }
 
+[Serializable]
+public class RerollEncryptObject : BaseEncryptObject
+{
+    public string gameId;
+}
 
 // UserData
 [Serializable]

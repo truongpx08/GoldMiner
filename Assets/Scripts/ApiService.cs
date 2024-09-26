@@ -3,7 +3,6 @@ using System.Collections;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -14,6 +13,36 @@ public enum EApiType
     PostStart,
     PostMove,
     PostFinish,
+    Reopen,
+}
+
+public class AesEncryption
+{
+    private readonly byte[] key;
+    private readonly byte[] iv;
+
+    public AesEncryption(string keyString)
+    {
+        key = Encoding.UTF8.GetBytes(keyString);
+        iv = new byte[16]; // Khởi tạo IV với giá trị 0  
+    }
+
+    public string Encrypt(string plainText)
+    {
+        using var aes = Aes.Create();
+        aes.Key = key;
+        aes.IV = iv;
+
+        using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+        using var ms = new MemoryStream();
+        using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+        using (var writer = new StreamWriter(cs))
+        {
+            writer.Write(plainText);
+        }
+
+        return Convert.ToBase64String(ms.ToArray());
+    }
 }
 
 public class ApiService : TruongSingleton<ApiService>
@@ -24,9 +53,16 @@ public class ApiService : TruongSingleton<ApiService>
     protected override void Start()
     {
         base.Start();
-        url = "https://api.taman.fun";
+        if (!Application.isEditor)
+            url = "https://api.taman.fun";
+        else
+        {
+            url = "https://refactor.faraland.moonknightlabs.com";
+            this.wallet = "0x9f964a5261d269DED973F8E9d685B87E1Dcf8DF0";
+        }
     }
 
+    //Call from react
     public void SetWallet(string value)
     {
         wallet = value;
@@ -54,10 +90,14 @@ public class ApiService : TruongSingleton<ApiService>
             case EApiType.PostFinish:
                 StartPostRequest("finish", CreateFinishEncryptObject, onComplete, onError);
                 break;
+            case EApiType.Reopen:
+                StartPostRequest("reroll", CreateRerollEncryptObject, onComplete, onError);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
+
 
     private IEnumerator IEGetRequest(string endpoint, Action<string> onComplete = null, Action<string> onError = null)
     {
@@ -119,6 +159,15 @@ public class ApiService : TruongSingleton<ApiService>
         };
     }
 
+    private object CreateRerollEncryptObject(long timestamp)
+    {
+        return new RerollEncryptObject()
+        {
+            timestamp = timestamp.ToString(),
+            gameId = GameStateMachine.Instance.PlayingState.Data.gameId,
+        };
+    }
+
     private IEnumerator IEPostRequest(string endpoint, object data, Action<string> onComplete = null,
         Action<string> onError = null)
     {
@@ -155,53 +204,6 @@ public class ApiService : TruongSingleton<ApiService>
                 onComplete?.Invoke(responseJson);
             else
                 ErrorPopup.Instance.ShowError(responseObj.message);
-        }
-    }
-}
-
-
-public class AesEncryption
-{
-    private readonly byte[] key;
-    private readonly byte[] iv;
-
-    public AesEncryption(string keyString)
-    {
-        key = Encoding.UTF8.GetBytes(keyString);
-        iv = new byte[16]; // Khởi tạo IV với giá trị 0  
-    }
-
-    public string Encrypt(string plainText)
-    {
-        using var aes = Aes.Create();
-        aes.Key = key;
-        aes.IV = iv;
-
-        using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-        using var ms = new MemoryStream();
-        using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-        using (var writer = new StreamWriter(cs))
-        {
-            writer.Write(plainText);
-        }
-
-        return Convert.ToBase64String(ms.ToArray());
-    }
-
-    public string Decrypt(string encryptedText)
-    {
-        using (Aes aes = Aes.Create())
-        {
-            aes.Key = key;
-            aes.IV = iv;
-
-            using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
-            using (var ms = new MemoryStream(Convert.FromBase64String(encryptedText)))
-            using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
-            using (var reader = new StreamReader(cs))
-            {
-                return reader.ReadToEnd();
-            }
         }
     }
 }

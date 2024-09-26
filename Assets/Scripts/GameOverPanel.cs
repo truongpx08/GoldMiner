@@ -15,6 +15,7 @@ public class GameOverPanel : MonoBehaviour
 {
     [SerializeField] private OpenButton openButton;
     [SerializeField] private SellButton sellButton;
+    [SerializeField] private ReopenButton reopenButton;
     [SerializeField] private Transform reward;
     [SerializeField] private Transform point;
     [SerializeField] private TextMeshProUGUI rewardText;
@@ -29,6 +30,7 @@ public class GameOverPanel : MonoBehaviour
     {
         this.openButton.gameObject.SetActive(true);
         this.sellButton.gameObject.SetActive(true);
+        SetActiveReopenButton(false);
         this.reward.gameObject.SetActive(true);
         this.point.gameObject.SetActive(false);
         this.homeButton.SetActive(false);
@@ -38,6 +40,7 @@ public class GameOverPanel : MonoBehaviour
     {
         this.openButton.gameObject.SetActive(false);
         this.sellButton.gameObject.SetActive(false);
+        SetActiveReopenButton(true);
         this.reward.gameObject.SetActive(false);
         this.point.gameObject.SetActive(true);
         this.homeButton.SetActive(true);
@@ -64,12 +67,13 @@ public class GameOverPanel : MonoBehaviour
         var levelData = DataManager.Instance.UserData.data.crystalData
             .Find(item => item.level == level);
         var chanceData = DataManager.Instance.UserData.data.chance;
-        this.descriptionText.text = $"{GetIcon(0)}Receive {levelData.CHEST_VALUE}{GetIcon(7)} for 1 chest when you sell.\n\n" +
-                                    $"{GetIcon(0)}Receive chance to have more when you open:\n" +
-                                    $"\t{GetIcon(1)}{chanceData.NORMAL_CHEST}% change to receive {levelData.NORMAL_CHEST}{GetIcon(7)}\n" +
-                                    $"\t{GetIcon(1)}{chanceData.RARE_CHEST}% change to receive {levelData.RARE_CHEST}{GetIcon(7)}\n" +
-                                    $"\t{GetIcon(1)}{chanceData.EPIC_CHEST}% change to receive {levelData.EPIC_CHEST}{GetIcon(7)}\n" +
-                                    $"\t{GetIcon(1)}{chanceData.LEGENDARY_CHEST}% change to receive {levelData.LEGENDARY_CHEST}{GetIcon(7)}\n";
+        this.descriptionText.text =
+            $"{GetIcon(0)}Receive {levelData.CHEST_VALUE}{GetIcon(7)} for 1 chest when you sell.\n\n" +
+            $"{GetIcon(0)}Receive chance to have more when you open:\n" +
+            $"\t{GetIcon(1)}{chanceData.NORMAL_CHEST}% change to receive {levelData.NORMAL_CHEST}{GetIcon(7)}\n" +
+            $"\t{GetIcon(1)}{chanceData.RARE_CHEST}% change to receive {levelData.RARE_CHEST}{GetIcon(7)}\n" +
+            $"\t{GetIcon(1)}{chanceData.EPIC_CHEST}% change to receive {levelData.EPIC_CHEST}{GetIcon(7)}\n" +
+            $"\t{GetIcon(1)}{chanceData.LEGENDARY_CHEST}% change to receive {levelData.LEGENDARY_CHEST}{GetIcon(7)}\n";
     }
 
     private string GetIcon(int index)
@@ -80,5 +84,10 @@ public class GameOverPanel : MonoBehaviour
     public void SetTamanXBalance(float userTamanX)
     {
         this.tamanXBalance.text = userTamanX.ToString(CultureInfo.InvariantCulture);
+    }
+
+    public void SetActiveReopenButton(bool value)
+    {
+        this.reopenButton.gameObject.SetActive(value);
     }
 }

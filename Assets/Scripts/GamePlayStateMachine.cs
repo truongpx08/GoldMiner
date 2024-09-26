@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public enum EGamePlayState
     Playing,
     ShowReward,
     TransferRewardToPoint,
+    Reopen,
 }
 
 public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
@@ -19,6 +21,7 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
     private GamePlayPlayingState playingState;
     private ShowRewardState showRewardState;
     private TransferRewardToPointState transferRewardToPointState;
+    private ReopenState reopenState;
 
     protected override void Start()
     {
@@ -44,11 +47,16 @@ public class GamePlayStateMachine : TruongSingleton<GamePlayStateMachine>
                 this.transferRewardToPointState ??= gameObject.AddComponent<TransferRewardToPointState>();
                 this.stateMachine.ChangeState(this.transferRewardToPointState);
                 break;
+            case EGamePlayState.Reopen:
+                this.reopenState ??= gameObject.AddComponent<ReopenState>();
+                this.stateMachine.ChangeState(this.reopenState);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
     }
 }
+
 
 public class GamePlayBaseState : MonoBehaviour
 {
@@ -62,6 +70,7 @@ public class GamePlayPlayingState : GamePlayBaseState, IEnterState
         GamePlayUI.Instance.GameOverPanel.gameObject.SetActive(false);
         MiningMachine.Instance.StateMachine.ChangeState(EMiningMachineState.RotateHook);
         Items.Instance.SpawnAllItem();
+        GamePlayUI.Instance.Loading.SetActive(false);
     }
 }
 
@@ -85,5 +94,39 @@ public class TransferRewardToPointState : GamePlayBaseState, IEnterState
     public void Enter()
     {
         GameOverPanel.ShowPoint();
+    }
+}
+
+public class ReopenState : GamePlayBaseState, IEnterState
+{
+    [DllImport("__Internal")]
+    private static extern void Reopen();
+
+    public void Enter()
+    {
+        GameOverPanel.SetActiveReopenButton(false);
+        if (!Application.isEditor)
+        {
+            GamePlayUI.Instance.Loading.SetActive(true);
+            CallReact();
+        }
+    }
+
+    public void CallApi()
+    {
+        ApiService.Instance.Request(EApiType.Reopen, json =>
+        {
+            var jsonObject = JsonUtility.FromJson<FinishData>(json);
+            GamePlayUI.Instance.GameOverPanel.SetPoint(jsonObject.data.tamanXReward);
+            GamePlayUI.Instance.GameOverPanel.SetTamanXBalance(jsonObject.data.totalTamanX);
+            Debug.Log("Earn data");
+        });
+    }
+
+    private void CallReact()
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+         Reopen();
+#endif
     }
 }

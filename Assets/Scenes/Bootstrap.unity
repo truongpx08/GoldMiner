@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dedd8350af2d6d74d9fb5b1e98ab807c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallet: 0x9f964a5261d269DED973F8E9d685B87E1Dcf8DF0
+  wallet: 
   url: https://refactor.faraland.moonknightlabs.com
 --- !u!4 &788104653
 Transform:
