@@ -99,34 +99,12 @@ public class TransferRewardToPointState : GamePlayBaseState, IEnterState
 
 public class ReopenState : GamePlayBaseState, IEnterState
 {
-    [DllImport("__Internal")]
-    private static extern void Reopen();
-
     public void Enter()
     {
-        GameOverPanel.SetActiveReopenButton(false);
         if (!Application.isEditor)
         {
             GamePlayUI.Instance.Loading.SetActive(true);
-            CallReact();
+            ReopenUtils.Instance.CallReact();
         }
-    }
-
-    public void CallApi()
-    {
-        ApiService.Instance.Request(EApiType.Reopen, json =>
-        {
-            var jsonObject = JsonUtility.FromJson<FinishData>(json);
-            GamePlayUI.Instance.GameOverPanel.SetPoint(jsonObject.data.tamanXReward);
-            GamePlayUI.Instance.GameOverPanel.SetTamanXBalance(jsonObject.data.totalTamanX);
-            Debug.Log("Earn data");
-        });
-    }
-
-    private void CallReact()
-    {
-#if UNITY_WEBGL == true && UNITY_EDITOR == false
-         Reopen();
-#endif
     }
 }

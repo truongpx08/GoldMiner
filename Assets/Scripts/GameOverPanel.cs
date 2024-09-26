@@ -15,11 +15,10 @@ public class GameOverPanel : MonoBehaviour
 {
     [SerializeField] private OpenButton openButton;
     [SerializeField] private SellButton sellButton;
-    [SerializeField] private ReopenButton reopenButton;
+    [SerializeField] private GameObject reopen;
     [SerializeField] private Transform reward;
     [SerializeField] private Transform point;
     [SerializeField] private TextMeshProUGUI rewardText;
-    [SerializeField] private GameObject homeButton;
     [SerializeField] private EFinishType finishType;
     [SerializeField] private TextMeshProUGUI pointText;
     public EFinishType FinishType => this.finishType;
@@ -30,20 +29,18 @@ public class GameOverPanel : MonoBehaviour
     {
         this.openButton.gameObject.SetActive(true);
         this.sellButton.gameObject.SetActive(true);
-        SetActiveReopenButton(false);
+        SetActiveReopen(false);
         this.reward.gameObject.SetActive(true);
         this.point.gameObject.SetActive(false);
-        this.homeButton.SetActive(false);
     }
 
     public void ShowPoint()
     {
         this.openButton.gameObject.SetActive(false);
         this.sellButton.gameObject.SetActive(false);
-        SetActiveReopenButton(true);
+        SetActiveReopen(true);
         this.reward.gameObject.SetActive(false);
         this.point.gameObject.SetActive(true);
-        this.homeButton.SetActive(true);
     }
 
     public void SetRewardText()
@@ -86,8 +83,8 @@ public class GameOverPanel : MonoBehaviour
         this.tamanXBalance.text = userTamanX.ToString(CultureInfo.InvariantCulture);
     }
 
-    public void SetActiveReopenButton(bool value)
+    public void SetActiveReopen(bool value)
     {
-        this.reopenButton.gameObject.SetActive(value);
+        this.reopen.SetActive(value);
     }
 }
