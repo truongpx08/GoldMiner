@@ -109,6 +109,12 @@ public class RotateHookState : MiningMachineBase2State, IEnterState, IExitState
         this.MiningMachine.HookTransform.localPosition = initialPosition; // Khôi phục vị trí ban đầu  
         AudioManager.Instance.StopPullLine();
 
+        for (int i = 0; i < this.MiningMachine.HookTransform.childCount; i++)
+        {
+            if (i != 0)
+                this.MiningMachine.HookTransform.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
         this.isEntering = true;
     }
 
